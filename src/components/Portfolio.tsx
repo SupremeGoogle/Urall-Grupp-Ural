@@ -41,6 +41,19 @@ export default function Portfolio({ content }: Props) {
       {/* Zoom Parallax Gallery */}
       <ZoomParallax images={zoomImages} onImageClick={setLightbox} />
 
+      {/* CTA after gallery */}
+      <div className="flex justify-center py-16">
+        <button
+          onClick={() => setLightbox(0)}
+          className="group flex items-center gap-3 bg-brand-orange hover:bg-orange-400 text-black font-semibold rounded-full px-8 py-4 text-[15px] transition-all duration-200 hover:scale-105 hover:shadow-[0_0_40px_rgba(249,115,22,0.4)]"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+          </svg>
+          Посмотреть галерею
+        </button>
+      </div>
+
       {/* Lightbox */}
       {lightbox !== null && (
         <div
