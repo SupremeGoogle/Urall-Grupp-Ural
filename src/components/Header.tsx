@@ -31,7 +31,8 @@ export default function Header({ content }: Props) {
           <img
             src="/logo.png"
             alt="Урал Групп"
-            className="h-12 w-auto object-contain"
+            className="h-14 w-auto object-contain rounded-xl"
+            style={{ background: 'white', padding: '6px 10px' }}
           />
         </a>
 
