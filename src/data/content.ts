@@ -154,6 +154,18 @@ export const defaultContent: SiteContent = {
       category: 'Домокомплект',
       image: '/works/work2.jpg',
     },
+    {
+      id: '6',
+      title: 'Промышленный фундамент',
+      category: 'Фундамент',
+      image: '/works/work6.jpg',
+    },
+    {
+      id: '7',
+      title: 'Деревянный домокомплект',
+      category: 'Домокомплект',
+      image: '/works/work7.jpg',
+    },
   ],
   contact: {
     title: 'Получить',
