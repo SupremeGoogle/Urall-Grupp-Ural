@@ -27,13 +27,15 @@ export default function Header({ content }: Props) {
     }`}>
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         {/* Logo */}
-        <a href="#" className="flex items-center gap-3 group">
-          <div className="w-9 h-9 rounded-lg bg-brand-orange flex items-center justify-center font-inter font-black text-black text-sm transition-transform group-hover:scale-110">
-            UG
+        <a href="#" className="flex items-center gap-2 group">
+          <div className="h-10 w-auto transition-transform group-hover:scale-105">
+            <img
+              src="/logo.jpg"
+              alt="Урал Групп"
+              className="h-10 w-auto object-contain rounded-md"
+              style={{ filter: 'brightness(0) invert(1)' }}
+            />
           </div>
-          <span className="font-inter font-bold text-[17px] tracking-tight">
-            {content.company.name}
-          </span>
         </a>
 
         {/* Desktop nav */}

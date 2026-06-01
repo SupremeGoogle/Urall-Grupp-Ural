@@ -11,10 +11,8 @@ export default function Footer({ content }: Props) {
           {/* Brand */}
           <div className="flex-1">
             <div className="flex items-center gap-3 mb-3">
-              <div className="w-8 h-8 rounded-lg bg-brand-orange flex items-center justify-center font-inter font-black text-black text-xs">
-                UG
-              </div>
-              <span className="font-inter font-bold text-white text-[16px]">{content.company.name}</span>
+              <img src="/logo.jpg" alt="Урал Групп" className="h-10 w-auto object-contain rounded-md"
+                style={{ filter: 'brightness(0) invert(1)' }} />
             </div>
             <p className="text-white/40 text-[13px] max-w-[280px] leading-relaxed">
               {content.company.description}
