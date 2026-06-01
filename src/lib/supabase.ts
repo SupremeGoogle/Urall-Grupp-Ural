@@ -31,12 +31,16 @@ export async function fetchSiteContent(): Promise<SiteContent | null> {
 export async function persistSiteContent(content: SiteContent): Promise<boolean> {
   if (!URL || !KEY) return false
   try {
+    // UPSERT: insert row if not exists, update if exists
     const res = await fetch(
-      `${URL}/rest/v1/site_content?id=eq.1`,
+      `${URL}/rest/v1/site_content`,
       {
-        method: 'PATCH',
-        headers: { ...headers(), 'Prefer': 'return=minimal' },
-        body: JSON.stringify({ content }),
+        method: 'POST',
+        headers: {
+          ...headers(),
+          'Prefer': 'resolution=merge-duplicates,return=minimal',
+        },
+        body: JSON.stringify({ id: 1, content }),
       }
     )
     return res.ok

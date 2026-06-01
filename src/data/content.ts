@@ -184,13 +184,16 @@ export function getCachedContent(): SiteContent {
 
 // Async load: fetch from Supabase, cache in localStorage, fallback to default
 export async function loadContent(): Promise<SiteContent> {
-  const { fetchSiteContent } = await import('../lib/supabase');
+  const { fetchSiteContent, persistSiteContent } = await import('../lib/supabase');
   const remote = await fetchSiteContent();
   if (remote) {
     localStorage.setItem('urall_content', JSON.stringify(remote));
     return remote;
   }
-  return getCachedContent();
+  // Supabase empty or unreachable — seed with defaultContent and clear stale cache
+  persistSiteContent(defaultContent);
+  localStorage.setItem('urall_content', JSON.stringify(defaultContent));
+  return defaultContent;
 }
 
 // Save to Supabase + localStorage cache
