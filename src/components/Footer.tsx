@@ -11,8 +11,7 @@ export default function Footer({ content }: Props) {
           {/* Brand */}
           <div className="flex-1">
             <div className="flex items-center gap-3 mb-3">
-              <img src="/logo.jpg" alt="Урал Групп" className="h-10 w-auto object-contain rounded-lg"
-                style={{ background: 'white', padding: '3px 6px' }} />
+              <img src="/logo.png" alt="Урал Групп" className="h-10 w-auto object-contain" />
             </div>
             <p className="text-white/40 text-[13px] max-w-[280px] leading-relaxed">
               {content.company.description}

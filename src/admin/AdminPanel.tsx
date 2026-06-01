@@ -223,12 +223,48 @@ function HeroEditor({ content, setContent }: { content: SiteContent; setContent:
 }
 
 function ServicesEditor({ content, setContent }: { content: SiteContent; setContent: (c: SiteContent) => void }) {
+  const addService = () => {
+    const newService = {
+      id: Date.now().toString(),
+      icon: '🔧',
+      title: 'Новая услуга',
+      description: '',
+      features: [],
+    }
+    setContent({ ...content, services: [...content.services, newService] })
+  }
+
+  const deleteService = (i: number) => {
+    if (!confirm(`Удалить услугу «${content.services[i].title}»?`)) return
+    setContent({ ...content, services: content.services.filter((_, idx) => idx !== i) })
+  }
+
   return (
     <div className="space-y-8">
-      <h3 className="font-inter font-bold text-white text-[18px] mb-6">Услуги</h3>
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <h3 className="font-inter font-bold text-white text-[18px]">Услуги</h3>
+          <p className="text-white/40 text-[12px] mt-1">Всего: {content.services.length}</p>
+        </div>
+        <button
+          onClick={addService}
+          className="flex items-center gap-2 bg-brand-orange hover:bg-orange-400 text-black font-semibold rounded-xl px-5 py-2.5 text-[13px] transition-all hover:scale-[1.02]"
+        >
+          <Plus size={15} /> Добавить услугу
+        </button>
+      </div>
+
       {content.services.map((service, i) => (
         <div key={service.id} className="border border-white/10 rounded-xl p-6 space-y-4">
-          <span className="text-brand-orange font-bold text-[12px] uppercase tracking-wide">Услуга {i + 1}</span>
+          <div className="flex items-center justify-between">
+            <span className="text-brand-orange font-bold text-[12px] uppercase tracking-wide">Услуга {i + 1}</span>
+            <button
+              onClick={() => deleteService(i)}
+              className="flex items-center gap-1.5 text-red-500/60 hover:text-red-400 hover:bg-red-500/10 rounded-lg px-3 py-1.5 text-[12px] transition-colors"
+            >
+              <Trash2 size={13} /> Удалить
+            </button>
+          </div>
           <Field label="Иконка (эмодзи)" value={service.icon} onChange={v => {
             const s = [...content.services]; s[i] = { ...s[i], icon: v }; setContent({ ...content, services: s })
           }} />
@@ -253,6 +289,15 @@ function ServicesEditor({ content, setContent }: { content: SiteContent; setCont
           </div>
         </div>
       ))}
+
+      {content.services.length > 0 && (
+        <button
+          onClick={addService}
+          className="w-full border border-dashed border-white/15 hover:border-brand-orange/40 rounded-xl py-4 text-[13px] text-white/40 hover:text-brand-orange transition-all flex items-center justify-center gap-2"
+        >
+          <Plus size={15} /> Добавить ещё одну услугу
+        </button>
+      )}
     </div>
   )
 }

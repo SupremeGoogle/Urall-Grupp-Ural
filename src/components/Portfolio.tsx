@@ -6,25 +6,21 @@ interface Props { content: SiteContent }
 
 export default function Portfolio({ content }: Props) {
   const ref = useRef<HTMLElement>(null)
-  const [filter, setFilter] = useState('Все')
   const [lightbox, setLightbox] = useState<number | null>(null)
 
-  const categories = ['Все', ...Array.from(new Set(content.portfolio.map(p => p.category)))]
-  const filtered = filter === 'Все' ? content.portfolio : content.portfolio.filter(p => p.category === filter)
+  const items = content.portfolio
 
-  // Keyboard navigation for lightbox
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (lightbox === null) return
       if (e.key === 'Escape') setLightbox(null)
-      if (e.key === 'ArrowRight') setLightbox(i => i !== null ? (i + 1) % filtered.length : null)
-      if (e.key === 'ArrowLeft') setLightbox(i => i !== null ? (i - 1 + filtered.length) % filtered.length : null)
+      if (e.key === 'ArrowRight') setLightbox(i => i !== null ? (i + 1) % items.length : null)
+      if (e.key === 'ArrowLeft') setLightbox(i => i !== null ? (i - 1 + items.length) % items.length : null)
     }
     window.addEventListener('keydown', handler)
     return () => window.removeEventListener('keydown', handler)
-  }, [lightbox, filtered.length])
+  }, [lightbox, items.length])
 
-  // Scroll reveal
   useEffect(() => {
     const observer = new IntersectionObserver(
       entries => entries.forEach(e => {
@@ -53,42 +49,25 @@ export default function Portfolio({ content }: Props) {
           </p>
         </div>
 
-        {/* Filter */}
-        <div className="reveal flex items-center justify-center gap-2 mb-10 flex-wrap">
-          {categories.map(cat => (
-            <button
-              key={cat}
-              onClick={() => setFilter(cat)}
-              className={`rounded-full px-5 py-2 text-[12px] font-medium tracking-wide uppercase transition-all duration-200 ${
-                filter === cat
-                  ? 'bg-brand-orange text-black shadow-[0_0_20px_rgba(249,115,22,0.3)]'
-                  : 'liquid-glass text-white/60 hover:text-white hover:bg-white/5'
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
-
-        {/* Masonry-style grid */}
-        <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 space-y-4">
-          {filtered.map((item, i) => (
+        {/* Uniform grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          {items.map((item, i) => (
             <div
               key={item.id}
-              className="reveal break-inside-avoid group relative rounded-2xl overflow-hidden cursor-zoom-in"
+              className="reveal group relative rounded-2xl overflow-hidden cursor-zoom-in aspect-[4/3]"
               style={{ transitionDelay: `${Math.min(i * 60, 300)}ms` }}
               onClick={() => setLightbox(i)}
             >
               <img
                 src={item.image}
                 alt={item.title}
-                className="w-full object-cover transition-transform duration-700 group-hover:scale-105 block"
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 loading="lazy"
                 onError={e => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&q=70' }}
               />
 
               {/* Hover overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
               {/* Zoom icon */}
               <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -97,29 +76,13 @@ export default function Portfolio({ content }: Props) {
                 </div>
               </div>
 
-              {/* Category badge */}
-              <div className="absolute top-3 left-3">
-                <span className="liquid-glass rounded-full px-3 py-1 text-[10px] font-semibold tracking-[0.15em] text-white/90 uppercase">
-                  {item.category}
-                </span>
-              </div>
-
               {/* Title on hover */}
               <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
-                <p className="font-inter font-semibold text-white text-[14px]">{item.title}</p>
+                <p className="font-inter font-semibold text-white text-[14px] drop-shadow">{item.title}</p>
               </div>
             </div>
           ))}
         </div>
-
-        {/* Count badge */}
-        {content.portfolio.length > 0 && (
-          <div className="reveal text-center mt-10">
-            <span className="liquid-glass rounded-full px-5 py-2 text-[13px] text-white/50">
-              Показано {filtered.length} из {content.portfolio.length} объектов
-            </span>
-          </div>
-        )}
       </div>
 
       {/* Lightbox */}
@@ -128,7 +91,6 @@ export default function Portfolio({ content }: Props) {
           className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center"
           onClick={() => setLightbox(null)}
         >
-          {/* Close */}
           <button
             className="absolute top-5 right-5 liquid-glass rounded-full p-3 text-white hover:text-brand-orange transition-colors z-10"
             onClick={() => setLightbox(null)}
@@ -136,35 +98,29 @@ export default function Portfolio({ content }: Props) {
             <X size={20} />
           </button>
 
-          {/* Prev */}
-          {filtered.length > 1 && (
+          {items.length > 1 && (
             <button
               className="absolute left-4 liquid-glass rounded-full p-3 text-white hover:text-brand-orange transition-colors z-10"
-              onClick={e => { e.stopPropagation(); setLightbox((lightbox - 1 + filtered.length) % filtered.length) }}
+              onClick={e => { e.stopPropagation(); setLightbox((lightbox - 1 + items.length) % items.length) }}
             >
               <ChevronLeft size={24} />
             </button>
           )}
 
-          {/* Image */}
           <div className="max-w-5xl max-h-[85vh] mx-16 flex flex-col items-center gap-4" onClick={e => e.stopPropagation()}>
             <img
-              src={filtered[lightbox]?.image}
-              alt={filtered[lightbox]?.title}
-              className="max-h-[75vh] max-w-full object-contain rounded-xl"
+              src={items[lightbox]?.image}
+              alt={items[lightbox]?.title}
+              className="max-h-[78vh] max-w-full object-contain rounded-xl"
             />
-            <div className="text-center">
-              <p className="font-inter font-semibold text-white text-[16px]">{filtered[lightbox]?.title}</p>
-              <span className="text-brand-orange text-[12px] uppercase tracking-wide">{filtered[lightbox]?.category}</span>
-            </div>
-            <p className="text-white/30 text-[12px]">{lightbox + 1} / {filtered.length} · ESC для закрытия</p>
+            <p className="font-inter font-semibold text-white text-[16px]">{items[lightbox]?.title}</p>
+            <p className="text-white/30 text-[12px]">{lightbox + 1} / {items.length} · ESC для закрытия</p>
           </div>
 
-          {/* Next */}
-          {filtered.length > 1 && (
+          {items.length > 1 && (
             <button
               className="absolute right-4 liquid-glass rounded-full p-3 text-white hover:text-brand-orange transition-colors z-10"
-              onClick={e => { e.stopPropagation(); setLightbox((lightbox + 1) % filtered.length) }}
+              onClick={e => { e.stopPropagation(); setLightbox((lightbox + 1) % items.length) }}
             >
               <ChevronRight size={24} />
             </button>

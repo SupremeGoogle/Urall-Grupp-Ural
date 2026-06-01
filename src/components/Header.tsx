@@ -29,10 +29,9 @@ export default function Header({ content }: Props) {
         {/* Logo */}
         <a href="#" className="flex items-center group transition-transform hover:scale-105">
           <img
-            src="/logo.jpg"
+            src="/logo.png"
             alt="Урал Групп"
-            className="h-12 w-auto object-contain rounded-lg"
-            style={{ background: 'white', padding: '4px 8px' }}
+            className="h-12 w-auto object-contain"
           />
         </a>
 
