@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { LogOut, Save, Eye, RefreshCw, Check, ClipboardList, Trash2, Plus, GripVertical } from 'lucide-react'
-import { defaultContent, getContent, saveContent } from '../data/content'
+import { defaultContent, getCachedContent, loadContent, saveContent } from '../data/content'
 import type { SiteContent } from '../data/content'
 
 const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD || 'ural2026'
@@ -9,13 +9,19 @@ export default function AdminPanel() {
   const [authed, setAuthed] = useState(false)
   const [pw, setPw] = useState('')
   const [pwError, setPwError] = useState(false)
-  const [content, setContent] = useState<SiteContent>(getContent())
+  const [content, setContent] = useState<SiteContent>(getCachedContent())
   const [saved, setSaved] = useState(false)
+  const [saveError, setSaveError] = useState(false)
+  const [saving, setSaving] = useState(false)
   const [activeTab, setActiveTab] = useState<'company'|'hero'|'services'|'stats'|'about'|'portfolio'>('company')
 
   useEffect(() => {
     const s = sessionStorage.getItem('urall_admin')
-    if (s === 'yes') setAuthed(true)
+    if (s === 'yes') {
+      setAuthed(true)
+      // Load fresh content from Supabase when admin opens panel
+      loadContent().then(setContent)
+    }
   }, [])
 
   const login = () => {
@@ -23,6 +29,7 @@ export default function AdminPanel() {
       sessionStorage.setItem('urall_admin', 'yes')
       setAuthed(true)
       setPwError(false)
+      loadContent().then(setContent)
     } else {
       setPwError(true)
       setPw('')
@@ -34,16 +41,24 @@ export default function AdminPanel() {
     setAuthed(false)
   }
 
-  const handleSave = () => {
-    saveContent(content)
-    setSaved(true)
-    setTimeout(() => setSaved(false), 2500)
+  const handleSave = async () => {
+    setSaving(true)
+    setSaveError(false)
+    const ok = await saveContent(content)
+    setSaving(false)
+    if (ok) {
+      setSaved(true)
+      setTimeout(() => setSaved(false), 2500)
+    } else {
+      setSaveError(true)
+      setTimeout(() => setSaveError(false), 4000)
+    }
   }
 
-  const handleReset = () => {
+  const handleReset = async () => {
     if (confirm('Сбросить к исходным данным?')) {
       setContent(defaultContent)
-      saveContent(defaultContent)
+      await saveContent(defaultContent)
     }
   }
 
@@ -119,13 +134,22 @@ export default function AdminPanel() {
                className="liquid-glass rounded-full px-4 py-2 text-[12px] text-white/70 hover:text-white flex items-center gap-2 transition-colors">
               <RefreshCw size={13} /> Сброс
             </button>
+            {saveError && (
+              <span className="text-red-400 text-[12px]">Ошибка сохранения</span>
+            )}
             <button
               onClick={handleSave}
+              disabled={saving}
               className={`rounded-full px-5 py-2 text-[12px] font-semibold flex items-center gap-2 transition-all ${
-                saved ? 'bg-green-500 text-white' : 'bg-brand-orange hover:bg-orange-400 text-black'
+                saved ? 'bg-green-500 text-white'
+                : saveError ? 'bg-red-500/80 text-white'
+                : saving ? 'bg-white/20 text-white/50 cursor-wait'
+                : 'bg-brand-orange hover:bg-orange-400 text-black'
               }`}
             >
-              {saved ? <><Check size={13} /> Сохранено!</> : <><Save size={13} /> Сохранить</>}
+              {saving ? <><svg className="animate-spin w-3 h-3" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" strokeDasharray="60" strokeDashoffset="20"/></svg> Сохранение...</>
+              : saved ? <><Check size={13} /> Сохранено!</>
+              : <><Save size={13} /> Сохранить</>}
             </button>
             <button onClick={logout} className="liquid-glass rounded-full p-2.5 text-white/50 hover:text-white transition-colors">
               <LogOut size={14} />

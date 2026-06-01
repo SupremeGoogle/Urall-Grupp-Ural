@@ -173,8 +173,8 @@ export const defaultContent: SiteContent = {
   },
 };
 
-// Load from localStorage (admin edits) or use default
-export function getContent(): SiteContent {
+// Sync read from localStorage (for initial render — no flash)
+export function getCachedContent(): SiteContent {
   try {
     const saved = localStorage.getItem('urall_content');
     if (saved) return JSON.parse(saved) as SiteContent;
@@ -182,6 +182,23 @@ export function getContent(): SiteContent {
   return defaultContent;
 }
 
-export function saveContent(content: SiteContent): void {
-  localStorage.setItem('urall_content', JSON.stringify(content));
+// Async load: fetch from Supabase, cache in localStorage, fallback to default
+export async function loadContent(): Promise<SiteContent> {
+  const { fetchSiteContent } = await import('../lib/supabase');
+  const remote = await fetchSiteContent();
+  if (remote) {
+    localStorage.setItem('urall_content', JSON.stringify(remote));
+    return remote;
+  }
+  return getCachedContent();
 }
+
+// Save to Supabase + localStorage cache
+export async function saveContent(content: SiteContent): Promise<boolean> {
+  localStorage.setItem('urall_content', JSON.stringify(content));
+  const { persistSiteContent } = await import('../lib/supabase');
+  return persistSiteContent(content);
+}
+
+// Keep old name as alias so ContactForm import doesn't break
+export const getContent = getCachedContent;

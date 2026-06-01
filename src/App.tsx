@@ -10,15 +10,17 @@ import ContactForm from './components/ContactForm'
 import Footer from './components/Footer'
 import AdminPanel from './admin/AdminPanel'
 import PrivacyPolicy from './components/PrivacyPolicy'
-import { getContent } from './data/content'
+import { getCachedContent, loadContent } from './data/content'
 import type { SiteContent } from './data/content'
 
 function MainSite() {
-  const [content, setContent] = useState<SiteContent>(getContent())
+  const [content, setContent] = useState<SiteContent>(getCachedContent())
 
-  // Re-read content if admin made changes
   useEffect(() => {
-    const handler = () => setContent(getContent())
+    // Fetch fresh content from Supabase on load
+    loadContent().then(setContent)
+    // Re-read if admin saved in this tab
+    const handler = () => loadContent().then(setContent)
     window.addEventListener('storage', handler)
     return () => window.removeEventListener('storage', handler)
   }, [])
