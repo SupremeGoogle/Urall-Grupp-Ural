@@ -126,39 +126,33 @@ export const defaultContent: SiteContent = {
   portfolio: [
     {
       id: '1',
-      title: 'Монтаж свайного поля — большой объект',
+      title: 'Свайное поле под большой объект',
       category: 'Фундамент',
       image: '/works/work1.jpg',
     },
     {
       id: '2',
-      title: 'Свайный фундамент с ростверком',
+      title: 'Стальной ростверк на сваях',
       category: 'Фундамент',
       image: '/works/work4.jpg',
     },
     {
       id: '3',
-      title: 'Домик на свайном фундаменте',
+      title: 'Фундамент для дома в горах',
+      category: 'Фундамент',
+      image: '/works/work5.jpg',
+    },
+    {
+      id: '4',
+      title: 'Деревянный домик на сваях',
       category: 'Домокомплект',
       image: '/works/work3.jpg',
     },
     {
-      id: '4',
-      title: 'Доставка и монтаж домокомплекта',
+      id: '5',
+      title: 'Монтаж домокомплекта из бруса',
       category: 'Домокомплект',
       image: '/works/work2.jpg',
-    },
-    {
-      id: '5',
-      title: 'Промышленный фундамент',
-      category: 'Фундамент',
-      image: 'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800&q=80',
-    },
-    {
-      id: '6',
-      title: 'Деревянный домокомплект из мини-бруса',
-      category: 'Домокомплект',
-      image: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&q=80',
     },
   ],
   contact: {

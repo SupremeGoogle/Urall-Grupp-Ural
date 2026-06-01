@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { LogOut, Save, Eye, RefreshCw, Check, ClipboardList } from 'lucide-react'
+import { LogOut, Save, Eye, RefreshCw, Check, ClipboardList, Trash2, Plus, GripVertical } from 'lucide-react'
 import { defaultContent, getContent, saveContent } from '../data/content'
 import type { SiteContent } from '../data/content'
 
@@ -298,30 +298,157 @@ function AboutEditor({ content, setContent }: { content: SiteContent; setContent
 }
 
 function PortfolioEditor({ content, setContent }: { content: SiteContent; setContent: (c: SiteContent) => void }) {
+  const addItem = () => {
+    const newItem = {
+      id: Date.now().toString(),
+      title: 'Новая работа',
+      category: 'Фундамент',
+      image: '',
+    }
+    setContent({ ...content, portfolio: [...content.portfolio, newItem] })
+  }
+
+  const deleteItem = (i: number) => {
+    if (!confirm(`Удалить «${content.portfolio[i].title}»?`)) return
+    const p = content.portfolio.filter((_, idx) => idx !== i)
+    setContent({ ...content, portfolio: p })
+  }
+
+  const moveUp = (i: number) => {
+    if (i === 0) return
+    const p = [...content.portfolio]
+    ;[p[i - 1], p[i]] = [p[i], p[i - 1]]
+    setContent({ ...content, portfolio: p })
+  }
+
+  const moveDown = (i: number) => {
+    if (i === content.portfolio.length - 1) return
+    const p = [...content.portfolio]
+    ;[p[i], p[i + 1]] = [p[i + 1], p[i]]
+    setContent({ ...content, portfolio: p })
+  }
+
   return (
-    <div className="space-y-6">
-      <h3 className="font-inter font-bold text-white text-[18px] mb-6">Портфолио — работы</h3>
-      <p className="text-white/40 text-[13px]">Вставьте прямые ссылки на фотографии. Рекомендуемый размер: 800×600px.</p>
+    <div className="space-y-5">
+      {/* Header with add button */}
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <h3 className="font-inter font-bold text-white text-[18px]">Примеры работ</h3>
+          <p className="text-white/40 text-[12px] mt-1">Всего: {content.portfolio.length} работ</p>
+        </div>
+        <button
+          onClick={addItem}
+          className="flex items-center gap-2 bg-brand-orange hover:bg-orange-400 text-black font-semibold rounded-xl px-5 py-2.5 text-[13px] transition-all hover:scale-[1.02]"
+        >
+          <Plus size={15} /> Добавить работу
+        </button>
+      </div>
+
+      <p className="text-white/30 text-[12px] bg-white/5 rounded-xl px-4 py-3">
+        💡 Для фото из ВКонтакте: откройте фото → правая кнопка → «Копировать адрес изображения» → вставьте в поле URL.
+        Для фото из папки проекта используйте формат <code className="text-brand-orange">/works/имя-файла.jpg</code>
+      </p>
+
+      {content.portfolio.length === 0 && (
+        <div className="border border-dashed border-white/10 rounded-xl p-10 text-center">
+          <p className="text-white/30 text-[14px]">Нет добавленных работ</p>
+          <button onClick={addItem} className="mt-3 text-brand-orange text-[13px] hover:underline">+ Добавить первую работу</button>
+        </div>
+      )}
+
       {content.portfolio.map((item, i) => (
-        <div key={item.id} className="border border-white/10 rounded-xl p-5 space-y-3">
-          <span className="text-brand-orange font-bold text-[12px] uppercase">Работа {i + 1}</span>
+        <div key={item.id} className="border border-white/10 hover:border-white/20 rounded-xl p-5 space-y-4 transition-colors">
+          {/* Card header */}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <GripVertical size={16} className="text-white/20" />
+              <span className="text-brand-orange font-bold text-[12px] uppercase tracking-wide">
+                Работа {i + 1}
+              </span>
+              {item.category && (
+                <span className="bg-white/5 rounded-full px-2 py-0.5 text-[10px] text-white/40 uppercase">
+                  {item.category}
+                </span>
+              )}
+            </div>
+            <div className="flex items-center gap-1">
+              {/* Move up/down */}
+              <button
+                onClick={() => moveUp(i)}
+                disabled={i === 0}
+                className="p-1.5 text-white/30 hover:text-white disabled:opacity-20 transition-colors rounded-lg hover:bg-white/5"
+                title="Переместить вверх"
+              >
+                ↑
+              </button>
+              <button
+                onClick={() => moveDown(i)}
+                disabled={i === content.portfolio.length - 1}
+                className="p-1.5 text-white/30 hover:text-white disabled:opacity-20 transition-colors rounded-lg hover:bg-white/5"
+                title="Переместить вниз"
+              >
+                ↓
+              </button>
+              {/* Delete */}
+              <button
+                onClick={() => deleteItem(i)}
+                className="p-1.5 text-red-500/60 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors ml-1"
+                title="Удалить"
+              >
+                <Trash2 size={15} />
+              </button>
+            </div>
+          </div>
+
+          {/* Fields */}
           <div className="grid md:grid-cols-2 gap-4">
             <Field label="Название" value={item.title} onChange={v => {
               const p = [...content.portfolio]; p[i] = { ...p[i], title: v }; setContent({ ...content, portfolio: p })
             }} />
             <Field label="Категория" value={item.category} onChange={v => {
               const p = [...content.portfolio]; p[i] = { ...p[i], category: v }; setContent({ ...content, portfolio: p })
-            }} />
+            }} hint="Например: Фундамент, Домокомплект" />
           </div>
+
           <Field label="URL фото" value={item.image} onChange={v => {
             const p = [...content.portfolio]; p[i] = { ...p[i], image: v }; setContent({ ...content, portfolio: p })
-          }} hint="Прямая ссылка на изображение (https://...jpg)" />
-          {item.image && (
-            <img src={item.image} alt="" className="w-full h-32 object-cover rounded-lg" loading="lazy"
-              onError={e => { (e.target as HTMLImageElement).style.display = 'none' }} />
+          }} hint="Прямая ссылка на фото или /works/имя.jpg" />
+
+          {/* Preview */}
+          {item.image ? (
+            <div className="relative rounded-xl overflow-hidden h-44 bg-white/5">
+              <img
+                src={item.image}
+                alt={item.title}
+                className="w-full h-full object-cover"
+                loading="lazy"
+                onError={e => {
+                  const el = e.target as HTMLImageElement
+                  el.style.display = 'none'
+                  el.nextElementSibling?.classList.remove('hidden')
+                }}
+              />
+              <div className="hidden absolute inset-0 flex items-center justify-center">
+                <p className="text-white/30 text-[13px]">⚠️ Не удалось загрузить изображение</p>
+              </div>
+            </div>
+          ) : (
+            <div className="rounded-xl h-20 bg-white/3 border border-dashed border-white/10 flex items-center justify-center">
+              <p className="text-white/20 text-[12px]">Нет изображения — вставьте URL выше</p>
+            </div>
           )}
         </div>
       ))}
+
+      {/* Bottom add button */}
+      {content.portfolio.length > 0 && (
+        <button
+          onClick={addItem}
+          className="w-full border border-dashed border-white/15 hover:border-brand-orange/40 rounded-xl py-4 text-[13px] text-white/40 hover:text-brand-orange transition-all flex items-center justify-center gap-2"
+        >
+          <Plus size={15} /> Добавить ещё одну работу
+        </button>
+      )}
     </div>
   )
 }
