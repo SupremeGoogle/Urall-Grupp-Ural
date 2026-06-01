@@ -24,7 +24,7 @@ export default function PrivacyPolicy() {
             <h2 className="font-inter font-semibold text-white text-[18px] mb-3">1. Общие положения</h2>
             <p>
               Настоящая Политика конфиденциальности определяет порядок обработки и защиты персональных
-              данных пользователей сайта компании <strong className="text-white">ООО «Урал-Групп»</strong> (далее — Оператор),
+              данных пользователей сайта компании <strong className="text-white">Urall-Grupp</strong> (далее — Оператор),
               расположенной по адресу: Краснодар, Краснодарский край.
             </p>
             <p className="mt-3">
