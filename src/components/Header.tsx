@@ -32,7 +32,7 @@ export default function Header({ content }: Props) {
             src="/logo.png"
             alt="Урал Групп"
             className="h-14 w-auto object-contain rounded-xl"
-            style={{ background: 'white', padding: '6px 10px' }}
+            style={{ background: 'rgba(0,0,0,0.45)', padding: '6px 10px' }}
           />
         </a>
 

@@ -12,7 +12,7 @@ export default function Footer({ content }: Props) {
           <div className="flex-1">
             <div className="flex items-center gap-3 mb-3">
               <img src="/logo.png" alt="Урал Групп" className="h-12 w-auto object-contain rounded-xl"
-                style={{ background: 'white', padding: '5px 9px' }} />
+                style={{ background: 'rgba(0,0,0,0.45)', padding: '5px 9px' }} />
             </div>
             <p className="text-white/40 text-[13px] max-w-[280px] leading-relaxed">
               {content.company.description}
