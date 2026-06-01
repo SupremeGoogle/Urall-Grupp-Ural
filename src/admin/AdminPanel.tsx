@@ -104,11 +104,13 @@ export default function AdminPanel() {
             <span className="font-inter font-bold text-white text-[15px]">Панель управления</span>
           </div>
           <div className="flex items-center gap-2 flex-wrap">
-            <a href={`${import.meta.env.VITE_SHEETS_URL?.replace('exec','')}`}
-               target="_blank" rel="noopener noreferrer"
-               className="liquid-glass rounded-full px-4 py-2 text-[12px] text-white/70 hover:text-white flex items-center gap-2 transition-colors">
-              <ClipboardList size={13} /> Заявки (Google Sheets)
-            </a>
+            {import.meta.env.VITE_SHEETS_VIEW_URL ? (
+              <a href={import.meta.env.VITE_SHEETS_VIEW_URL}
+                 target="_blank" rel="noopener noreferrer"
+                 className="liquid-glass rounded-full px-4 py-2 text-[12px] text-white/70 hover:text-white flex items-center gap-2 transition-colors">
+                <ClipboardList size={13} /> Заявки (Google Sheets)
+              </a>
+            ) : null}
             <a href="/" target="_blank"
                className="liquid-glass rounded-full px-4 py-2 text-[12px] text-white/70 hover:text-white flex items-center gap-2 transition-colors">
               <Eye size={13} /> Просмотр сайта
@@ -437,6 +439,14 @@ function PortfolioEditor({ content, setContent }: { content: SiteContent; setCon
               <p className="text-white/20 text-[12px]">Нет изображения — вставьте URL выше</p>
             </div>
           )}
+
+          {/* Delete button */}
+          <button
+            onClick={() => deleteItem(i)}
+            className="w-full mt-2 flex items-center justify-center gap-2 border border-red-500/30 hover:border-red-500/70 hover:bg-red-500/10 text-red-500/60 hover:text-red-400 rounded-xl py-2.5 text-[13px] transition-all"
+          >
+            <Trash2 size={14} /> Удалить работу
+          </button>
         </div>
       ))}
 

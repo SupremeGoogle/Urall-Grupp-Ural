@@ -176,25 +176,36 @@ export default function ContactForm({ content }: Props) {
 
                 {/* Согласие на обработку персональных данных */}
                 <label className="flex items-start gap-3 cursor-pointer group">
-                  <div className={`mt-0.5 w-5 h-5 rounded-md border flex-shrink-0 flex items-center justify-center transition-all ${
+                  {/* Скрытый нативный чекбокс — лейбл передаёт на него клики */}
+                  <input
+                    type="checkbox"
+                    className="sr-only"
+                    checked={consent}
+                    onChange={e => setConsent(e.target.checked)}
+                    required
+                  />
+                  {/* Визуальный чекбокс — pointer-events-none чтобы клик шёл в label → input */}
+                  <div className={`mt-0.5 w-5 h-5 rounded-md border flex-shrink-0 flex items-center justify-center transition-all pointer-events-none ${
                     consent
                       ? 'bg-brand-orange border-brand-orange'
                       : 'border-white/20 group-hover:border-white/40'
-                  }`}
-                    onClick={() => setConsent(!consent)}
-                  >
+                  }`}>
                     {consent && (
                       <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
                         <path d="M1 3.5L3.5 6.5L9 1" stroke="black" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
                       </svg>
                     )}
                   </div>
-                  <input type="checkbox" className="sr-only" checked={consent} onChange={e => setConsent(e.target.checked)} required />
                   <span className="text-[12px] text-white/40 leading-relaxed">
                     Я согласен(а) на{' '}
-                    <span className="text-white/60 underline underline-offset-2 cursor-pointer hover:text-white transition-colors">
+                    <a
+                      href="/privacy"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-white/60 underline underline-offset-2 hover:text-white transition-colors"
+                    >
                       обработку персональных данных
-                    </span>{' '}
+                    </a>{' '}
                     в соответствии с Федеральным законом № 152-ФЗ
                   </span>
                 </label>

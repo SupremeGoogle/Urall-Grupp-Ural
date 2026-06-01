@@ -9,6 +9,7 @@ import Portfolio from './components/Portfolio'
 import ContactForm from './components/ContactForm'
 import Footer from './components/Footer'
 import AdminPanel from './admin/AdminPanel'
+import PrivacyPolicy from './components/PrivacyPolicy'
 import { getContent } from './data/content'
 import type { SiteContent } from './data/content'
 
@@ -44,6 +45,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<MainSite />} />
         <Route path="/admin" element={<AdminPanel />} />
+        <Route path="/privacy" element={<PrivacyPolicy />} />
       </Routes>
     </BrowserRouter>
   )
