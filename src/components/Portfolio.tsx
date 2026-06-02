@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { X, ChevronLeft, ChevronRight } from 'lucide-react'
 import { ZoomParallax } from './ui/ZoomParallax'
 import type { SiteContent } from '../data/content'
@@ -7,6 +7,7 @@ interface Props { content: SiteContent }
 
 export default function Portfolio({ content }: Props) {
   const [lightbox, setLightbox] = useState<number | null>(null)
+  const touchStartX = useRef<number | null>(null)
   const items = content.portfolio
 
   const zoomImages = items.map(item => ({ src: item.image, alt: item.title }))
@@ -57,42 +58,57 @@ export default function Portfolio({ content }: Props) {
       {/* Lightbox */}
       {lightbox !== null && (
         <div
-          className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center"
-          onClick={() => setLightbox(null)}
+          className="fixed inset-0 z-[100] bg-black flex flex-col"
+          onTouchStart={e => { touchStartX.current = e.touches[0].clientX }}
+          onTouchEnd={e => {
+            if (touchStartX.current === null) return
+            const diff = e.changedTouches[0].clientX - touchStartX.current
+            if (diff > 50) setLightbox((lightbox - 1 + items.length) % items.length)
+            if (diff < -50) setLightbox((lightbox + 1) % items.length)
+            touchStartX.current = null
+          }}
         >
-          <button
-            className="absolute top-5 right-5 liquid-glass rounded-full p-3 text-white hover:text-brand-orange transition-colors z-10"
-            onClick={() => setLightbox(null)}
-          >
-            <X size={20} />
-          </button>
-
-          {items.length > 1 && (
+          {/* Top bar */}
+          <div className="flex items-center justify-between px-4 py-3 shrink-0">
+            <span className="text-white/50 text-[13px]">{lightbox + 1} / {items.length}</span>
+            <p className="font-inter font-semibold text-white text-[14px] truncate mx-4 flex-1 text-center">
+              {items[lightbox]?.title}
+            </p>
             <button
-              className="absolute left-4 liquid-glass rounded-full p-3 text-white hover:text-brand-orange transition-colors z-10"
-              onClick={e => { e.stopPropagation(); setLightbox((lightbox - 1 + items.length) % items.length) }}
+              className="liquid-glass rounded-full p-2.5 text-white hover:text-brand-orange transition-colors"
+              onClick={() => setLightbox(null)}
             >
-              <ChevronLeft size={24} />
+              <X size={20} />
             </button>
-          )}
+          </div>
 
-          <div className="max-w-5xl max-h-[85vh] mx-16 flex flex-col items-center gap-4" onClick={e => e.stopPropagation()}>
+          {/* Image — fills all available height */}
+          <div className="flex-1 flex items-center justify-center px-2 overflow-hidden">
             <img
               src={items[lightbox]?.image}
               alt={items[lightbox]?.title}
-              className="max-h-[78vh] max-w-full object-contain rounded-xl"
+              className="w-full h-full object-contain rounded-xl"
+              style={{ maxHeight: 'calc(100dvh - 110px)' }}
             />
-            <p className="font-inter font-semibold text-white text-[16px]">{items[lightbox]?.title}</p>
-            <p className="text-white/30 text-[12px]">{lightbox + 1} / {items.length} · ESC для закрытия</p>
           </div>
 
+          {/* Bottom nav */}
           {items.length > 1 && (
-            <button
-              className="absolute right-4 liquid-glass rounded-full p-3 text-white hover:text-brand-orange transition-colors z-10"
-              onClick={e => { e.stopPropagation(); setLightbox((lightbox + 1) % items.length) }}
-            >
-              <ChevronRight size={24} />
-            </button>
+            <div className="flex items-center justify-center gap-6 py-4 shrink-0">
+              <button
+                className="liquid-glass rounded-full p-3 text-white hover:text-brand-orange transition-colors"
+                onClick={() => setLightbox((lightbox - 1 + items.length) % items.length)}
+              >
+                <ChevronLeft size={28} />
+              </button>
+              <span className="text-white/30 text-[11px] hidden sm:block">ESC для закрытия</span>
+              <button
+                className="liquid-glass rounded-full p-3 text-white hover:text-brand-orange transition-colors"
+                onClick={() => setLightbox((lightbox + 1) % items.length)}
+              >
+                <ChevronRight size={28} />
+              </button>
+            </div>
           )}
         </div>
       )}

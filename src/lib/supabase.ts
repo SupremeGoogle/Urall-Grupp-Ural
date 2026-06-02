@@ -3,6 +3,10 @@ import type { SiteContent } from '../data/content'
 const URL = import.meta.env.VITE_SUPABASE_URL as string
 const KEY = import.meta.env.VITE_SUPABASE_KEY as string
 
+export function isConfigured() {
+  return Boolean(URL && KEY)
+}
+
 function headers() {
   return {
     'apikey': KEY,

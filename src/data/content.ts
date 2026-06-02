@@ -199,7 +199,9 @@ export async function loadContent(): Promise<SiteContent> {
 // Save to Supabase + localStorage cache
 export async function saveContent(content: SiteContent): Promise<boolean> {
   localStorage.setItem('urall_content', JSON.stringify(content));
-  const { persistSiteContent } = await import('../lib/supabase');
+  const { persistSiteContent, isConfigured } = await import('../lib/supabase');
+  // If Supabase env vars are missing — localStorage-only save is still a success
+  if (!isConfigured()) return true;
   return persistSiteContent(content);
 }
 
