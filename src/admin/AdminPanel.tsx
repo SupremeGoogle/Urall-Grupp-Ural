@@ -220,7 +220,6 @@ function CompanyEditor({ content, setContent }: { content: SiteContent; setConte
     <div className="space-y-5">
       <h3 className="font-inter font-bold text-white text-[18px] mb-6">Данные компании</h3>
       <Field label="Название" value={content.company.name} onChange={set('name')} />
-      <Field label="Слоган" value={content.company.tagline} onChange={set('tagline')} />
       <Field label="Описание" value={content.company.description} onChange={set('description')} multiline />
       <Field label="Телефон (для ссылки, только цифры)" value={content.company.phone} onChange={set('phone')} hint="Пример: 89180368866" />
       <Field label="Телефон (для отображения)" value={content.company.phoneDisplay} onChange={set('phoneDisplay')} hint="Пример: 8 918 036 88 66" />
