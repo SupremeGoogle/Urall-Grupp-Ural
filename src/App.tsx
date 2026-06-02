@@ -12,15 +12,14 @@ import AdminPanel from './admin/AdminPanel'
 import PrivacyPolicy from './components/PrivacyPolicy'
 import { getCachedContent, loadContent } from './data/content'
 import type { SiteContent } from './data/content'
+import ErrorBoundary from './components/ErrorBoundary'
 
 function MainSite() {
   const [content, setContent] = useState<SiteContent>(getCachedContent())
 
   useEffect(() => {
-    // Fetch fresh content from Supabase on load
-    loadContent().then(setContent)
-    // Re-read if admin saved in this tab
-    const handler = () => loadContent().then(setContent)
+    loadContent().then(setContent).catch(console.error)
+    const handler = () => loadContent().then(setContent).catch(console.error)
     window.addEventListener('storage', handler)
     return () => window.removeEventListener('storage', handler)
   }, [])
@@ -43,12 +42,14 @@ function MainSite() {
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<MainSite />} />
-        <Route path="/admin" element={<AdminPanel />} />
-        <Route path="/privacy" element={<PrivacyPolicy />} />
-      </Routes>
-    </BrowserRouter>
+    <ErrorBoundary>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<MainSite />} />
+          <Route path="/admin" element={<AdminPanel />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
+        </Routes>
+      </BrowserRouter>
+    </ErrorBoundary>
   )
 }

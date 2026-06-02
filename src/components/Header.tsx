@@ -28,12 +28,9 @@ export default function Header({ content }: Props) {
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         {/* Logo */}
         <a href="#" className="flex items-center group transition-transform hover:scale-105">
-          <img
-            src="/logo.png"
-            alt="Урал Групп"
-            className="h-14 w-auto object-contain rounded-xl"
-            style={{ background: 'rgba(0,0,0,0.45)', padding: '6px 10px' }}
-          />
+          <span className="font-inter font-bold text-white text-[20px] tracking-tight">
+            Urall<span className="text-brand-orange">-</span>Grupp
+          </span>
         </a>
 
         {/* Desktop nav */}
