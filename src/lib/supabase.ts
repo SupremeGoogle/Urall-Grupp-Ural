@@ -25,7 +25,10 @@ export async function fetchSiteContent(): Promise<SiteContent | null> {
     if (!res.ok) return null
     const data = await res.json()
     const content = data[0]?.content
-    if (!content || Object.keys(content).length === 0) return null
+    if (!content || typeof content !== 'object') return null
+    // Validate required fields — reject stale/incompatible structures
+    const c = content as Record<string, unknown>
+    if (!c.company || !c.hero || !c.portfolio || !c.contact) return null
     return content as SiteContent
   } catch {
     return null

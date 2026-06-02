@@ -173,11 +173,22 @@ export const defaultContent: SiteContent = {
   },
 };
 
+function isValidContent(data: unknown): data is SiteContent {
+  if (!data || typeof data !== 'object') return false
+  const c = data as Record<string, unknown>
+  return !!(c.company && c.hero && c.services && c.about && c.portfolio && c.contact)
+}
+
 // Sync read from localStorage (for initial render — no flash)
 export function getCachedContent(): SiteContent {
   try {
     const saved = localStorage.getItem('urall_content');
-    if (saved) return JSON.parse(saved) as SiteContent;
+    if (saved) {
+      const parsed = JSON.parse(saved)
+      if (isValidContent(parsed)) return parsed
+      // Stale/incompatible data — clear it
+      localStorage.removeItem('urall_content')
+    }
   } catch {}
   return defaultContent;
 }
