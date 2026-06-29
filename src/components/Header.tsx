@@ -16,60 +16,75 @@ export default function Header({ content }: Props) {
 
   const links = [
     { label: 'Услуги', href: '#services' },
+    { label: 'Портфолио', href: '#portfolio' },
+    { label: 'Цены', href: '#pricing' },
     { label: 'О нас', href: '#about' },
-    { label: 'Работы', href: '#portfolio' },
+    { label: 'FAQ', href: '#faq' },
     { label: 'Контакты', href: '#contact' },
   ]
 
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-      scrolled ? 'py-4 liquid-glass' : 'py-6 bg-transparent'
+      scrolled ? 'py-3 liquid-glass' : 'py-5 bg-transparent'
     }`}>
-      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-        {/* Logo */}
-        <a href="#" className="flex items-center group transition-transform hover:scale-105">
-          <span className="font-inter font-bold text-white text-[20px] tracking-tight">
-            Urall<span className="text-brand-orange">-</span>Grupp
-          </span>
-        </a>
+      <div className="max-w-7xl mx-auto px-6">
+        {/* Top bar: hours + social */}
+        {!scrolled && (
+          <div className="hidden md:flex items-center justify-between text-[10px] text-white/30 tracking-widest uppercase mb-3">
+            <span>{content.company.hours}</span>
+            <div className="flex items-center gap-4">
+              <a href={content.company.vk} target="_blank" rel="noopener noreferrer" className="hover:text-brand-orange transition-colors">ВКонтакте</a>
+              <a href={content.company.telegram} target="_blank" rel="noopener noreferrer" className="hover:text-brand-orange transition-colors">Telegram</a>
+            </div>
+          </div>
+        )}
 
-        {/* Desktop nav */}
-        <nav className="hidden md:flex items-center gap-1 liquid-glass rounded-full px-2 py-2">
-          {links.map(link => (
+        <div className="flex items-center justify-between">
+          {/* Logo */}
+          <a href="#" className="flex items-center group transition-transform hover:scale-105">
+            <span className="font-inter font-bold text-white text-[20px] tracking-tight">
+              Urall<span className="text-brand-orange">-</span>Grupp
+            </span>
+          </a>
+
+          {/* Desktop nav */}
+          <nav className="hidden md:flex items-center gap-1 liquid-glass rounded-full px-2 py-2">
+            {links.map(link => (
+              <a
+                key={link.label}
+                href={link.href}
+                className="text-[10px] font-medium tracking-[0.12em] text-white/70 hover:text-white px-3 py-1.5 rounded-full hover:bg-white/10 transition-all duration-200 uppercase"
+              >
+                {link.label}
+              </a>
+            ))}
+          </nav>
+
+          {/* CTA */}
+          <div className="hidden md:flex items-center gap-3">
             <a
-              key={link.label}
-              href={link.href}
-              className="text-[11px] font-medium tracking-[0.12em] text-white/80 hover:text-white px-4 py-1.5 rounded-full hover:bg-white/10 transition-all duration-200 uppercase"
+              href={`tel:${content.company.phone}`}
+              className="liquid-glass rounded-full px-4 py-2.5 flex items-center gap-2 text-[11px] font-medium tracking-[0.1em] text-white/90 hover:text-white transition-all duration-200 hover:bg-white/5"
             >
-              {link.label}
+              <Phone size={12} strokeWidth={2} />
+              {content.company.phoneDisplay}
             </a>
-          ))}
-        </nav>
+            <a
+              href="#contact"
+              className="bg-brand-orange hover:bg-orange-400 text-black rounded-full px-5 py-2.5 text-[10px] font-black tracking-[0.15em] transition-all duration-200 hover:scale-105 uppercase"
+            >
+              Расчёт цены
+            </a>
+          </div>
 
-        {/* CTA */}
-        <div className="hidden md:flex items-center gap-3">
-          <a
-            href={`tel:${content.company.phone}`}
-            className="liquid-glass rounded-full px-5 py-2.5 flex items-center gap-2 text-[11px] font-medium tracking-[0.1em] text-white/90 hover:text-white transition-all duration-200 hover:bg-white/5"
+          {/* Mobile menu button */}
+          <button
+            className="md:hidden liquid-glass rounded-full p-2.5"
+            onClick={() => setMenuOpen(!menuOpen)}
           >
-            <Phone size={12} strokeWidth={2} />
-            {content.company.phoneDisplay}
-          </a>
-          <a
-            href="#contact"
-            className="bg-brand-orange hover:bg-orange-400 text-black rounded-full px-5 py-2.5 text-[11px] font-semibold tracking-[0.1em] transition-all duration-200 hover:scale-105 uppercase"
-          >
-            Расчёт цены
-          </a>
+            {menuOpen ? <X size={18} /> : <Menu size={18} />}
+          </button>
         </div>
-
-        {/* Mobile menu button */}
-        <button
-          className="md:hidden liquid-glass rounded-full p-2.5"
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
-          {menuOpen ? <X size={18} /> : <Menu size={18} />}
-        </button>
       </div>
 
       {/* Mobile menu */}

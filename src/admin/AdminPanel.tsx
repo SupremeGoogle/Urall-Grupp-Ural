@@ -1,9 +1,39 @@
-import { useState, useEffect } from 'react'
-import { LogOut, Save, Eye, RefreshCw, Check, ClipboardList, Trash2, Plus, GripVertical } from 'lucide-react'
+import { useState, useEffect, useRef } from 'react'
+import { LogOut, Save, Eye, RefreshCw, Check, ClipboardList, Trash2, Plus, GripVertical, Upload } from 'lucide-react'
 import { defaultContent, getCachedContent, loadContent, saveContent } from '../data/content'
 import type { SiteContent } from '../data/content'
 
 const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD || 'ural2026'
+
+/* Read an image file from the device, downscale it on a canvas and return a
+   compressed JPEG data URL — keeps the JSON payload small enough for Supabase. */
+function fileToResizedDataUrl(file: File, maxSize = 1600, quality = 0.82): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onerror = () => reject(new Error('read error'))
+    reader.onload = () => {
+      const img = new Image()
+      img.onerror = () => reject(new Error('decode error'))
+      img.onload = () => {
+        let { width, height } = img
+        if (width > maxSize || height > maxSize) {
+          const scale = maxSize / Math.max(width, height)
+          width = Math.round(width * scale)
+          height = Math.round(height * scale)
+        }
+        const canvas = document.createElement('canvas')
+        canvas.width = width
+        canvas.height = height
+        const ctx = canvas.getContext('2d')
+        if (!ctx) return reject(new Error('no canvas context'))
+        ctx.drawImage(img, 0, 0, width, height)
+        resolve(canvas.toDataURL('image/jpeg', quality))
+      }
+      img.src = reader.result as string
+    }
+    reader.readAsDataURL(file)
+  })
+}
 
 export default function AdminPanel() {
   const [authed, setAuthed] = useState(false)
@@ -367,6 +397,47 @@ function AboutEditor({ content, setContent }: { content: SiteContent; setContent
   )
 }
 
+function ImageUploadButton({ hasImage, onPick }: { hasImage: boolean; onPick: (dataUrl: string) => void }) {
+  const inputRef = useRef<HTMLInputElement>(null)
+  const [busy, setBusy] = useState(false)
+  const [error, setError] = useState(false)
+
+  const handleFile = async (file: File | undefined) => {
+    if (!file) return
+    setError(false)
+    setBusy(true)
+    try {
+      onPick(await fileToResizedDataUrl(file))
+    } catch {
+      setError(true)
+      setTimeout(() => setError(false), 4000)
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  return (
+    <div>
+      <input
+        ref={inputRef}
+        type="file"
+        accept="image/*"
+        className="hidden"
+        onChange={e => { handleFile(e.target.files?.[0]); e.target.value = '' }}
+      />
+      <button
+        type="button"
+        onClick={() => inputRef.current?.click()}
+        disabled={busy}
+        className="w-full flex items-center justify-center gap-2 border border-dashed border-white/15 hover:border-brand-orange/40 rounded-xl py-3 text-[13px] text-white/50 hover:text-brand-orange transition-all disabled:opacity-50"
+      >
+        <Upload size={14} /> {busy ? 'Загрузка…' : hasImage ? 'Заменить фото с устройства' : 'Загрузить фото с устройства'}
+      </button>
+      {error && <p className="text-red-400 text-[12px] mt-1">Не удалось обработать файл</p>}
+    </div>
+  )
+}
+
 function PortfolioEditor({ content, setContent }: { content: SiteContent; setContent: (c: SiteContent) => void }) {
   const addItem = () => {
     const newItem = {
@@ -415,8 +486,9 @@ function PortfolioEditor({ content, setContent }: { content: SiteContent; setCon
       </div>
 
       <p className="text-white/30 text-[12px] bg-white/5 rounded-xl px-4 py-3">
-        💡 Для фото из ВКонтакте: откройте фото → правая кнопка → «Копировать адрес изображения» → вставьте в поле URL.
-        Для фото из папки проекта используйте формат <code className="text-brand-orange">/works/имя-файла.jpg</code>
+        💡 Загрузите фото прямо с устройства кнопкой <strong className="text-white">«Загрузить фото с устройства»</strong> —
+        изображение сожмётся автоматически. Либо вставьте прямую ссылку в поле URL
+        (формат <code className="text-brand-orange">/works/имя-файла.jpg</code> для фото из папки проекта).
       </p>
 
       {content.portfolio.length === 0 && (
@@ -480,9 +552,17 @@ function PortfolioEditor({ content, setContent }: { content: SiteContent; setCon
             }} hint="Например: Фундамент, Домокомплект" />
           </div>
 
-          <Field label="URL фото" value={item.image} onChange={v => {
+          <Field label="URL фото" value={item.image.startsWith('data:') ? '' : item.image} onChange={v => {
             const p = [...content.portfolio]; p[i] = { ...p[i], image: v }; setContent({ ...content, portfolio: p })
           }} hint="Прямая ссылка на фото или /works/имя.jpg" />
+
+          {/* Upload from device */}
+          <ImageUploadButton
+            hasImage={Boolean(item.image)}
+            onPick={dataUrl => {
+              const p = [...content.portfolio]; p[i] = { ...p[i], image: dataUrl }; setContent({ ...content, portfolio: p })
+            }}
+          />
 
           {/* Preview */}
           {item.image ? (
