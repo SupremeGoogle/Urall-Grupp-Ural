@@ -26,9 +26,14 @@ export async function fetchSiteContent(): Promise<SiteContent | null> {
     const data = await res.json()
     const content = data[0]?.content
     if (!content || typeof content !== 'object') return null
-    // Validate required fields — reject stale/incompatible structures
+    // Validate required fields — reject stale/incompatible structures.
+    // v2 adds promo/production/keyAdvantages/guarantees/fiveAdvantages/pricing/faq:
+    // an old (v1) row lacking these must be rejected so defaultContent re-seeds
+    // the new structure instead of crashing the new sections.
     const c = content as Record<string, unknown>
     if (!c.company || !c.hero || !c.portfolio || !c.contact) return null
+    if (!c.promo || !c.production || !c.keyAdvantages || !c.guarantees ||
+        !c.fiveAdvantages || !c.pricing || !c.faq) return null
     return content as SiteContent
   } catch {
     return null

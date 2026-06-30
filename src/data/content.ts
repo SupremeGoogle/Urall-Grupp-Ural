@@ -311,7 +311,13 @@ export const defaultContent: SiteContent = {
 function isValidContent(data: unknown): data is SiteContent {
   if (!data || typeof data !== 'object') return false;
   const c = data as Record<string, unknown>;
-  return !!(c.company && c.hero && c.services && c.about && c.portfolio && c.contact);
+  // Require v2 sections too — reject stale v1-shaped cache so the new
+  // sections don't read undefined fields and crash.
+  return !!(
+    c.company && c.hero && c.services && c.about && c.portfolio && c.contact &&
+    c.promo && c.production && c.keyAdvantages && c.guarantees &&
+    c.fiveAdvantages && c.pricing && c.faq
+  );
 }
 
 export function getCachedContent(): SiteContent {
