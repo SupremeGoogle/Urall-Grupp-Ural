@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import type { SiteContent } from '../data/content'
+import Icon from './ui/Icon'
 
 interface Props { content: SiteContent }
 
@@ -32,7 +33,7 @@ export default function Production({ content }: Props) {
               className="slide-in opacity-0 -translate-x-4 transition-all duration-700 liquid-glass rounded-2xl p-6 text-center hover:border-brand-orange/30 group"
               style={{ transitionDelay: `${i * 120}ms` }}
             >
-              <div className="text-3xl mb-3">{item.icon}</div>
+              <div className="flex justify-center mb-3"><Icon name={item.icon} size={30} className="text-brand-orange" /></div>
               <h3 className="font-black text-white text-xs tracking-wide mb-2 group-hover:text-brand-orange transition-colors duration-200 uppercase">
                 {item.title}
               </h3>

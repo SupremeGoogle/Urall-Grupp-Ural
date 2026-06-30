@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import type { SiteContent } from '../data/content'
+import Icon from './ui/Icon'
 
 interface Props { content: SiteContent }
 
@@ -32,8 +33,8 @@ export default function KeyAdvantages({ content }: Props) {
               className="adv-item opacity-0 translate-y-6 transition-all duration-500 flex gap-4 liquid-glass rounded-2xl p-6 hover:border-brand-orange/20 group"
               style={{ transitionDelay: `${i * 100}ms` }}
             >
-              <div className="shrink-0 w-12 h-12 rounded-xl bg-brand-orange/10 flex items-center justify-center text-xl group-hover:bg-brand-orange/20 transition-colors duration-200">
-                {item.icon}
+              <div className="shrink-0 w-12 h-12 rounded-xl bg-brand-orange/10 flex items-center justify-center group-hover:bg-brand-orange/20 transition-colors duration-200">
+                <Icon name={item.icon} size={22} className="text-brand-orange" />
               </div>
               <div>
                 <h3 className="font-black text-white text-xs tracking-wide mb-1.5 group-hover:text-brand-orange transition-colors duration-200 uppercase">

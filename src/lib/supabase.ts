@@ -1,4 +1,5 @@
 import type { SiteContent } from '../data/content'
+import { CONTENT_VERSION } from '../data/content'
 
 const URL = import.meta.env.VITE_SUPABASE_URL as string
 const KEY = import.meta.env.VITE_SUPABASE_KEY as string
@@ -31,6 +32,9 @@ export async function fetchSiteContent(): Promise<SiteContent | null> {
     // an old (v1) row lacking these must be rejected so defaultContent re-seeds
     // the new structure instead of crashing the new sections.
     const c = content as Record<string, unknown>
+    // Version gate — a stale row (old shape or emoji-era icons) is rejected
+    // so loadContent re-seeds Supabase with the current defaultContent.
+    if (c.version !== CONTENT_VERSION) return null
     if (!c.company || !c.hero || !c.portfolio || !c.contact) return null
     if (!c.promo || !c.production || !c.keyAdvantages || !c.guarantees ||
         !c.fiveAdvantages || !c.pricing || !c.faq) return null

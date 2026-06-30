@@ -1,12 +1,9 @@
 import { useEffect, useRef } from 'react'
 import { CheckCircle2 } from 'lucide-react'
 import type { SiteContent } from '../data/content'
+import Icon from './ui/Icon'
 
 interface Props { content: SiteContent }
-
-const ICONS: Record<string, string> = {
-  '⚙️': '⚙️', '🏗️': '🏗️', '🪵': '🪵',
-}
 
 export default function Services({ content }: Props) {
   const sectionRef = useRef<HTMLElement>(null)
@@ -47,8 +44,8 @@ export default function Services({ content }: Props) {
               style={{ transitionDelay: `${i * 100}ms` }}
             >
               {/* Icon */}
-              <div className="w-14 h-14 rounded-xl bg-brand-orange/10 border border-brand-orange/20 flex items-center justify-center text-2xl mb-6 group-hover:bg-brand-orange/20 transition-colors">
-                {service.icon}
+              <div className="w-14 h-14 rounded-xl bg-brand-orange/10 border border-brand-orange/20 flex items-center justify-center mb-6 group-hover:bg-brand-orange/20 transition-colors">
+                <Icon name={service.icon} size={26} className="text-brand-orange" />
               </div>
 
               <h3 className="font-inter font-bold text-white text-[20px] mb-3 leading-tight">

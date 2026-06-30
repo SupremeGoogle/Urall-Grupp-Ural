@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import type { SiteContent } from '../data/content'
+import Icon from './ui/Icon'
 
 interface Props { content: SiteContent }
 
@@ -32,8 +33,8 @@ export default function FiveAdvantages({ content }: Props) {
               className="five-item opacity-0 -translate-x-6 transition-all duration-500 flex items-start gap-5 liquid-glass rounded-2xl px-6 py-5 hover:border-brand-orange/20 group"
               style={{ transitionDelay: `${i * 100}ms` }}
             >
-              <div className="shrink-0 w-10 h-10 rounded-xl bg-brand-orange/10 flex items-center justify-center text-lg group-hover:bg-brand-orange/20 transition-colors duration-200">
-                {item.icon}
+              <div className="shrink-0 w-10 h-10 rounded-xl bg-brand-orange/10 flex items-center justify-center group-hover:bg-brand-orange/20 transition-colors duration-200">
+                <Icon name={item.icon} size={20} className="text-brand-orange" />
               </div>
               <div className="flex items-start gap-4">
                 <span className="shrink-0 text-brand-orange font-black text-lg mt-0.5">0{i + 1}</span>

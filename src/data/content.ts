@@ -29,7 +29,12 @@ export interface PriceRow {
   price: string;
 }
 
+// Bump when the content shape OR seeded icon vocabulary changes, so stale
+// rows in Supabase/localStorage are rejected and re-seeded from defaultContent.
+export const CONTENT_VERSION = 3
+
 export interface SiteContent {
+  version: number;
   company: {
     name: string;
     tagline: string;
@@ -104,6 +109,7 @@ export interface SiteContent {
 }
 
 export const defaultContent: SiteContent = {
+  version: CONTENT_VERSION,
   company: {
     name: 'Urall-Grupp',
     tagline: 'Производство и монтаж свайно-винтовых фундаментов в Краснодаре и по всему ЮФО',
@@ -128,17 +134,17 @@ export const defaultContent: SiteContent = {
     clientsCount: '500+',
     advantages: [
       {
-        icon: '🏭',
+        icon: 'factory',
         title: 'СОБСТВЕННОЕ ПРОИЗВОДСТВО',
         subtitle: 'Производим винтовые сваи с 2015 года',
       },
       {
-        icon: '⚡',
+        icon: 'zap',
         title: 'МОНТАЖ ЗА 1 ДЕНЬ',
         subtitle: 'Монтаж под ключ за 1 день в любое время года',
       },
       {
-        icon: '🛡️',
+        icon: 'shield-check',
         title: 'ГАРАНТИЯ 25 ЛЕТ!',
         subtitle: 'Гарантия по договору в течение 25 лет',
       },
@@ -147,7 +153,7 @@ export const defaultContent: SiteContent = {
   services: [
     {
       id: 'foundation',
-      icon: '⚙️',
+      icon: 'settings',
       title: 'Свайно-винтовой фундамент',
       description: 'Производим и монтируем свайно-винтовые фундаменты для любых объектов — от дачных домиков до коммерческих строений.',
       features: [
@@ -159,7 +165,7 @@ export const defaultContent: SiteContent = {
     },
     {
       id: 'install',
-      icon: '🏗️',
+      icon: 'truck',
       title: 'Монтаж по всему ЮФО',
       description: 'Выезжаем в любую точку Южного федерального округа и за его пределами. Собственная техника и опытная команда.',
       features: [
@@ -171,7 +177,7 @@ export const defaultContent: SiteContent = {
     },
     {
       id: 'wood',
-      icon: '🪵',
+      icon: 'home',
       title: 'Деревянные домокомплекты',
       description: 'Производим домокомплекты из мини-бруса — дачные домики, бани, бытовки, хоз.блоки.',
       features: [
@@ -207,23 +213,23 @@ export const defaultContent: SiteContent = {
     title: 'СОБСТВЕННОЕ ПРОИЗВОДСТВО',
     subtitle: 'У НАС СОВРЕМЕННОЕ АВТОМАТИЗИРОВАННОЕ ПРОИЗВОДСТВО ВИНТОВЫХ СВАЙ В СТРОГОМ СООТВЕТСТВИИ С ГОСТ',
     items: [
-      { icon: '📅', title: 'С 2015 года', description: 'Собственное производство винтовых свай с 2015 года' },
-      { icon: '📋', title: 'СТРОГО по ГОСТ', description: 'Все сваи проходят проверку и изготавливаются строго по ГОСТу' },
-      { icon: '⚡', title: 'ПЛАЗМЕННАЯ РЕЗКА', description: 'Используем станки плазменной резки для достижения идеальной геометрии' },
-      { icon: '🔧', title: 'КАЧЕСТВЕННАЯ СВАРКА', description: 'Вся сварка выполняется сварщиками с опытом не менее 10 лет' },
-      { icon: '✅', title: 'ДВОЙНОЙ КОНТРОЛЬ', description: 'Сваи проходят двойную проверку перед отправкой на объект' },
+      { icon: 'calendar', title: 'С 2015 года', description: 'Собственное производство винтовых свай с 2015 года' },
+      { icon: 'clipboard-check', title: 'СТРОГО по ГОСТ', description: 'Все сваи проходят проверку и изготавливаются строго по ГОСТу' },
+      { icon: 'zap', title: 'ПЛАЗМЕННАЯ РЕЗКА', description: 'Используем станки плазменной резки для достижения идеальной геометрии' },
+      { icon: 'wrench', title: 'КАЧЕСТВЕННАЯ СВАРКА', description: 'Вся сварка выполняется сварщиками с опытом не менее 10 лет' },
+      { icon: 'check-circle', title: 'ДВОЙНОЙ КОНТРОЛЬ', description: 'Сваи проходят двойную проверку перед отправкой на объект' },
     ],
   },
   keyAdvantages: {
     title: 'НАШИ КЛЮЧЕВЫЕ ПРЕИМУЩЕСТВА',
     subtitle: 'ВСЕ УСЛОВИЯ ДЛЯ МАКСИМАЛЬНО КОМФОРТНОГО ВЗАИМОДЕЙСТВИЯ С НАШЕЙ КОМПАНИЕЙ',
     items: [
-      { icon: '🎯', title: 'ТОЧНЫЙ РАСЧЁТ', description: 'Расчёт фундамента дистанционно с точностью до 95%' },
-      { icon: '💰', title: 'РЕАЛЬНЫЕ ЦИФРЫ', description: 'Доступные цены, точный расчёт и фиксация стоимости в договоре' },
-      { icon: '🏆', title: 'ЛУЧШИЕ МАТЕРИАЛЫ', description: 'Используем лучшие материалы для производства винтовых свай' },
-      { icon: '👷', title: 'НАДЁЖНЫЙ МОНТАЖ', description: 'Профессиональные монтажники с опытом не менее 10 лет' },
-      { icon: '📝', title: 'ДОГОВОР', description: 'Работаем официально — заключаем договор на все виды работ' },
-      { icon: '🚗', title: 'ВЫЕЗД НА ОБЪЕКТ', description: 'Бесплатный выезд специалиста для оценки и расчёта' },
+      { icon: 'target', title: 'ТОЧНЫЙ РАСЧЁТ', description: 'Расчёт фундамента дистанционно с точностью до 95%' },
+      { icon: 'banknote', title: 'РЕАЛЬНЫЕ ЦИФРЫ', description: 'Доступные цены, точный расчёт и фиксация стоимости в договоре' },
+      { icon: 'award', title: 'ЛУЧШИЕ МАТЕРИАЛЫ', description: 'Используем лучшие материалы для производства винтовых свай' },
+      { icon: 'hard-hat', title: 'НАДЁЖНЫЙ МОНТАЖ', description: 'Профессиональные монтажники с опытом не менее 10 лет' },
+      { icon: 'file-text', title: 'ДОГОВОР', description: 'Работаем официально — заключаем договор на все виды работ' },
+      { icon: 'car', title: 'ВЫЕЗД НА ОБЪЕКТ', description: 'Бесплатный выезд специалиста для оценки и расчёта' },
     ],
   },
   guarantees: {
@@ -250,11 +256,11 @@ export const defaultContent: SiteContent = {
     title: 'ЕЩЁ 5 ПРЕИМУЩЕСТВ НАШЕЙ РАБОТЫ',
     subtitle: 'ПОЧЕМУ УЖЕ 500+ КЛИЕНТОВ В КРАСНОДАРСКОМ КРАЕ ВЫБРАЛИ НАС?',
     items: [
-      { icon: '🔍', text: 'Производим пробное бурение для 100% определения несущей способности грунта' },
-      { icon: '💧', text: 'Дополнительная гидроизоляция свай на стыке «грунт-атмосфера» продлевает срок эксплуатации почти в 3 раза' },
-      { icon: '📐', text: 'Индивидуальный расчёт фундамента под ваш объект без навязывания дополнительных услуг' },
-      { icon: '🚜', text: 'Компактное оборудование для монтажа свай в труднодоступных местах' },
-      { icon: '🏭', text: 'Производство свай в заводских условиях на профессиональном оборудовании плазменной резки с ЧПУ' },
+      { icon: 'search', text: 'Производим пробное бурение для 100% определения несущей способности грунта' },
+      { icon: 'droplet', text: 'Дополнительная гидроизоляция свай на стыке «грунт-атмосфера» продлевает срок эксплуатации почти в 3 раза' },
+      { icon: 'ruler', text: 'Индивидуальный расчёт фундамента под ваш объект без навязывания дополнительных услуг' },
+      { icon: 'tractor', text: 'Компактное оборудование для монтажа свай в труднодоступных местах' },
+      { icon: 'factory', text: 'Производство свай в заводских условиях на профессиональном оборудовании плазменной резки с ЧПУ' },
     ],
   },
   pricing: {
@@ -311,8 +317,9 @@ export const defaultContent: SiteContent = {
 function isValidContent(data: unknown): data is SiteContent {
   if (!data || typeof data !== 'object') return false;
   const c = data as Record<string, unknown>;
-  // Require v2 sections too — reject stale v1-shaped cache so the new
-  // sections don't read undefined fields and crash.
+  // Version gate: reject anything not matching the current content version
+  // (stale shape or stale icon vocabulary) so defaultContent re-seeds.
+  if (c.version !== CONTENT_VERSION) return false;
   return !!(
     c.company && c.hero && c.services && c.about && c.portfolio && c.contact &&
     c.promo && c.production && c.keyAdvantages && c.guarantees &&

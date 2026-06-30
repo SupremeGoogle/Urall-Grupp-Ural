@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import type { SiteContent } from '../data/content'
+import Icon from './ui/Icon'
 
 interface Props { content: SiteContent }
 
@@ -68,7 +69,7 @@ export default function HeroV2({ content }: Props) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
           {hero.advantages.map((adv, i) => (
             <div key={i} className="liquid-glass rounded-2xl p-6 flex flex-col items-center text-center gap-3 hover:border-brand-orange/30 transition-all duration-300 group">
-              <span className="text-3xl">{adv.icon}</span>
+              <Icon name={adv.icon} size={34} className="text-brand-orange" />
               <p className="font-bold text-white text-sm tracking-wide">{adv.title}</p>
               <p className="text-white/50 text-xs leading-relaxed">{adv.subtitle}</p>
             </div>
