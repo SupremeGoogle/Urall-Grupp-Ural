@@ -76,8 +76,7 @@ export default function ContactForm({ content }: Props) {
                 Связаться с нами
               </span>
               <h2 className="font-inter font-bold text-white mb-4" style={{ fontSize: 'clamp(28px, 4vw, 52px)' }}>
-                {content.contact.title}{' '}
-                <span className="text-gradient-orange">расчёт</span>
+                <span className="text-gradient-orange">{content.contact.title}</span>
               </h2>
               <p className="text-white/50 text-[15px] leading-relaxed mb-10">
                 {content.contact.subtitle}

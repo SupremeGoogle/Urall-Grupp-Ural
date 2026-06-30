@@ -19,7 +19,7 @@ export default function FAQ({ content }: Props) {
   }, [])
 
   return (
-    <section className="py-20 bg-[#0d0d0d]">
+    <section id="faq" className="py-20 bg-[#0d0d0d]">
       <div className="max-w-4xl mx-auto px-6">
         <div className="text-center mb-12">
           <p className="text-brand-orange text-[10px] font-semibold tracking-[0.3em] uppercase mb-3">FAQ</p>
@@ -47,7 +47,7 @@ export default function FAQ({ content }: Props) {
                 />
               </button>
               <div
-                className={`overflow-hidden transition-all duration-400 ease-in-out ${open === i ? 'max-h-96' : 'max-h-0'}`}
+                className={`overflow-hidden transition-all duration-500 ease-in-out ${open === i ? 'max-h-96' : 'max-h-0'}`}
               >
                 <p className="px-6 pb-5 text-white/60 text-sm leading-relaxed whitespace-pre-line border-t border-white/5 pt-4">
                   {item.answer}

@@ -28,7 +28,7 @@ export default function Guarantees({ content }: Props) {
           {guarantees.items.map((g, i) => (
             <div
               key={i}
-              className="guarantee-card opacity-0 scale-95 transition-all duration-600 relative liquid-glass rounded-3xl p-8 hover:border-brand-orange/30 group overflow-hidden"
+              className="guarantee-card opacity-0 scale-95 transition-all duration-700 relative liquid-glass rounded-3xl p-8 hover:border-brand-orange/30 group overflow-hidden"
               style={{ transitionDelay: `${i * 150}ms` }}
             >
               {/* Big number background */}

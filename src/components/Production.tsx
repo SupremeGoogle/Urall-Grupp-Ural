@@ -29,7 +29,7 @@ export default function Production({ content }: Props) {
           {production.items.map((item, i) => (
             <div
               key={i}
-              className="slide-in opacity-0 -translate-x-4 transition-all duration-600 liquid-glass rounded-2xl p-6 text-center hover:border-brand-orange/30 group"
+              className="slide-in opacity-0 -translate-x-4 transition-all duration-700 liquid-glass rounded-2xl p-6 text-center hover:border-brand-orange/30 group"
               style={{ transitionDelay: `${i * 120}ms` }}
             >
               <div className="text-3xl mb-3">{item.icon}</div>

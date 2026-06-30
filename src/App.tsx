@@ -45,9 +45,7 @@ function MainSite() {
         {/* 3. Акция */}
         <PromoBanner content={content} />
         {/* 4. Услуги */}
-        <section id="services">
-          <Services content={content} />
-        </section>
+        <Services content={content} />
         {/* 5. Галерея */}
         <GalleryGrid content={content} />
         {/* 6. Видео */}
@@ -69,9 +67,7 @@ function MainSite() {
         {/* 14. Ещё 5 преимуществ */}
         <FiveAdvantages content={content} />
         {/* 15. FAQ */}
-        <section id="faq">
-          <FAQ content={content} />
-        </section>
+        <FAQ content={content} />
         {/* 16. Контакты */}
         <ContactForm content={content} />
       </main>
