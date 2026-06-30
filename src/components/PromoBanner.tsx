@@ -7,7 +7,16 @@ export default function PromoBanner({ content }: Props) {
   return (
     <section className="py-12 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="relative rounded-3xl overflow-hidden border border-brand-orange/30 bg-gradient-to-r from-brand-orange/10 via-brand-orange/5 to-transparent p-8 md:p-12 flex flex-col md:flex-row items-center gap-6">
+        <div className="relative rounded-3xl overflow-hidden border border-brand-orange/30 p-8 md:p-12 flex flex-col md:flex-row items-center gap-6">
+          {/* Background photo */}
+          <img
+            src="/works/work4.jpg"
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover opacity-25"
+            loading="lazy"
+          />
+          {/* Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/85 to-brand-orange/10" />
           {/* Glow */}
           <div className="absolute -left-20 top-1/2 -translate-y-1/2 w-64 h-64 bg-brand-orange/20 rounded-full blur-[80px] pointer-events-none" />
 

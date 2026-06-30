@@ -26,6 +26,21 @@ export default function Production({ content }: Props) {
           <p className="text-white/40 text-sm max-w-2xl mx-auto leading-relaxed">{production.subtitle}</p>
         </div>
 
+        {/* Banner photo */}
+        <div className="relative rounded-3xl overflow-hidden h-64 md:h-80 mb-6">
+          <img
+            src="/works/work5.jpg"
+            alt="Производство винтовых свай по ГОСТ"
+            className="w-full h-full object-cover"
+            loading="lazy"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0d0d0d] via-[#0d0d0d]/30 to-transparent" />
+          <div className="absolute bottom-0 left-0 p-6 md:p-8">
+            <p className="text-white font-black text-lg md:text-xl tracking-wide">Винтовые сваи собственного производства</p>
+            <p className="text-brand-orange text-xs md:text-sm tracking-widest uppercase mt-1">Строго по ГОСТ · плазменная резка с ЧПУ</p>
+          </div>
+        </div>
+
         <div ref={ref} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
           {production.items.map((item, i) => (
             <div

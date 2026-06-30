@@ -50,8 +50,21 @@ export default function About({ content }: Props) {
             </div>
           </div>
 
-          {/* Stats grid */}
-          <div className="grid grid-cols-2 gap-4">
+          {/* Photo + stats */}
+          <div className="flex flex-col gap-4">
+            <div className="about-el opacity-0 translate-y-4 transition-all duration-500 relative rounded-2xl overflow-hidden h-56">
+              <img
+                src="/works/work7.jpg"
+                alt="Монтаж свайно-винтового фундамента"
+                className="w-full h-full object-cover"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a]/80 via-transparent to-transparent" />
+              <div className="absolute bottom-0 left-0 p-5">
+                <p className="text-white font-bold text-sm tracking-wide">Собственное производство и монтаж</p>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
             {content.stats.map((stat, i) => (
               <div
                 key={i}
@@ -64,6 +77,7 @@ export default function About({ content }: Props) {
                 <p className="text-white/40 text-xs tracking-wide uppercase">{stat.label}</p>
               </div>
             ))}
+            </div>
           </div>
         </div>
       </div>

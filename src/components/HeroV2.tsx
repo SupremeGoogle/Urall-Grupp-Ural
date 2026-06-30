@@ -24,6 +24,16 @@ export default function HeroV2({ content }: Props) {
 
   return (
     <section className="relative min-h-screen flex flex-col justify-center overflow-hidden pt-24 pb-16">
+      {/* Background photo */}
+      <div className="absolute inset-0">
+        <img
+          src="/works/work3.jpg"
+          alt=""
+          className="w-full h-full object-cover opacity-25"
+          loading="eager"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0a]/95 via-[#0a0a0a]/85 to-[#0a0a0a]" />
+      </div>
       {/* Background grid */}
       <div className="absolute inset-0 opacity-[0.03]" style={{
         backgroundImage: 'linear-gradient(#f97316 1px,transparent 1px),linear-gradient(90deg,#f97316 1px,transparent 1px)',
