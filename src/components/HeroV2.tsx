@@ -29,10 +29,10 @@ export default function HeroV2({ content }: Props) {
         <img
           src="/works/work3.jpg"
           alt=""
-          className="w-full h-full object-cover opacity-25"
+          className="w-full h-full object-cover opacity-70 animate-kenburns"
           loading="eager"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0a]/95 via-[#0a0a0a]/85 to-[#0a0a0a]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0a]/60 via-[#0a0a0a]/70 to-[#0a0a0a]" />
       </div>
       {/* Background grid */}
       <div className="absolute inset-0 opacity-[0.03]" style={{
