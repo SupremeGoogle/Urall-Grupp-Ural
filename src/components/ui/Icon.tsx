@@ -30,6 +30,9 @@ const MAP: Record<string, LucideIcon> = {
   'file-check': FileCheck,
 }
 
+// Exposed for the admin panel's icon picker
+export const ICON_NAMES = Object.keys(MAP)
+
 interface Props {
   name: string
   size?: number
