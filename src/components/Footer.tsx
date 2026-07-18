@@ -13,7 +13,7 @@ export default function Footer({ content }: Props) {
           {/* Logo + desc */}
           <div className="lg:col-span-2">
             <a href="#" className="inline-flex items-center gap-4 mb-4 group">
-              <img src="/logo.png" alt="Стальное основание" className="h-20 w-20 rounded-2xl object-cover" />
+              <img src="/logo-mark.png" alt="Стальное основание" className="h-20 w-auto object-contain" />
               <span className="font-inter font-bold text-white text-2xl tracking-tight leading-none">
                 Стальное<br /><span className="text-brand-orange">основание</span>
               </span>

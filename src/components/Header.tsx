@@ -31,8 +31,8 @@ export default function Header({ content }: Props) {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <a href="#" className="flex items-center gap-3 group transition-transform hover:scale-105">
-            <img src="/logo.png" alt="Стальное основание" className="h-10 w-10 rounded-lg object-cover" />
-            <span className="font-inter font-bold text-white text-[18px] tracking-tight leading-none">
+            <img src="/logo-mark.png" alt="Стальное основание" className="h-14 w-auto object-contain" />
+            <span className="font-inter font-bold text-white text-[20px] tracking-tight leading-none">
               Стальное<br /><span className="text-brand-orange">основание</span>
             </span>
           </a>

@@ -107,7 +107,7 @@ export default function AdminPanel() {
       <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center px-4">
         <div className="liquid-glass rounded-2xl p-10 w-full max-w-sm">
           <div className="flex items-center gap-3 mb-8">
-            <img src="/logo.png" alt="Стальное основание" className="w-11 h-11 rounded-lg object-cover" />
+            <img src="/logo-mark.png" alt="Стальное основание" className="w-12 h-12 object-contain" />
             <div>
               <div className="font-inter font-bold text-white text-[15px]">Стальное основание</div>
               <div className="text-white/40 text-[11px]">Панель администратора</div>
@@ -162,7 +162,7 @@ export default function AdminPanel() {
       <div className="liquid-glass border-b border-white/5 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between flex-wrap gap-3">
           <div className="flex items-center gap-3">
-            <img src="/logo.png" alt="Стальное основание" className="w-8 h-8 rounded-lg object-cover" />
+            <img src="/logo-mark.png" alt="Стальное основание" className="w-9 h-9 object-contain" />
             <span className="font-inter font-bold text-white text-[15px]">Панель управления</span>
           </div>
           <div className="flex items-center gap-2 flex-wrap">

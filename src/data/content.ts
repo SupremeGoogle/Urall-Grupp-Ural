@@ -31,7 +31,7 @@ export interface PriceRow {
 
 // Bump when the content shape OR seeded icon vocabulary changes, so stale
 // rows in Supabase/localStorage are rejected and re-seeded from defaultContent.
-export const CONTENT_VERSION = 4
+export const CONTENT_VERSION = 5
 
 export interface SiteContent {
   version: number;
@@ -116,9 +116,9 @@ export const defaultContent: SiteContent = {
     description: 'Производство и монтаж свайно-винтовых фундаментов в Краснодаре и по всему ЮФО',
     phone: '89180368866',
     phoneDisplay: '8 918 036 88 66',
-    email: 'ural@yandex.ru',
+    email: 'stalnoe-osnovanie@yandex.ru',
     vk: 'https://vk.ru/ural_grupp_krd',
-    telegram: 'https://t.me/ural_grupp_krd',
+    telegram: 'https://t.me/Stalnoe_osnovanie',
     address: 'г. Краснодар, Краснодарский край',
     hours: 'ПН-ВС: с 08:00 до 20:00',
   },
