@@ -354,9 +354,12 @@ export async function loadContent(): Promise<SiteContent> {
 // `password` is the admin password (sent to the server function to authorize the write).
 export async function saveContent(content: SiteContent, password?: string): Promise<boolean> {
   localStorage.setItem('urall_content_v2', JSON.stringify(content));
+  console.log('[save] локально в браузер сохранено (localStorage). Теперь пробую на сервер…');
   const pw = password ?? (typeof sessionStorage !== 'undefined' ? sessionStorage.getItem('urall_admin_pw') ?? '' : '');
   const { saveRemoteContent } = await import('../lib/store');
-  return saveRemoteContent(content, pw);
+  const ok = await saveRemoteContent(content, pw);
+  if (!ok) console.warn('[save] Итог: на сервер НЕ сохранено (правки есть только в этом браузере). Причина — выше в группе "[save] POST /api/content".');
+  return ok;
 }
 
 export const getContent = getCachedContent;
