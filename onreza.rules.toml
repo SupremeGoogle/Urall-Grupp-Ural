@@ -3,6 +3,8 @@
 # ONREZA dashboard UI, so BOTH the function route and the SPA fallback must live
 # here — otherwise /admin and client-side routing break.
 
+schemaVersion = "EDGE_RULE_SET_V1"
+
 # 1. Route /api/* to the content function (server-side; holds the GitHub token)
 [[rule]]
 id = "api-content"

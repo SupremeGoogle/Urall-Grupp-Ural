@@ -117,7 +117,7 @@ export const defaultContent: SiteContent = {
     phone: '89180368866',
     phoneDisplay: '8 918 036 88 66',
     email: 'stalnoe-osnovanie@yandex.ru',
-    vk: 'https://vk.ru/ural_grupp_krd',
+    vk: 'https://vk.ru/club240339101',
     telegram: 'https://t.me/Stalnoe_osnovanie',
     address: 'г. Краснодар, Краснодарский край',
     hours: 'ПН-ВС: с 08:00 до 20:00',
