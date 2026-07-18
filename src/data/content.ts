@@ -340,26 +340,18 @@ export function getCachedContent(): SiteContent {
 }
 
 export async function loadContent(): Promise<SiteContent> {
-  const { fetchRemoteContent } = await import('../lib/store');
-  const remote = await fetchRemoteContent();
-  if (remote) {
-    localStorage.setItem('urall_content_v2', JSON.stringify(remote));
-    return remote;
-  }
-  // Function unavailable or no content stored yet — use cached/default content.
+  // Content is managed in code (defaultContent). Just use the local cache/defaults —
+  // no backend call.
   return getCachedContent();
 }
 
-// Save: cache locally for instant render, then push to GitHub via the function.
-// `password` is the admin password (sent to the server function to authorize the write).
-export async function saveContent(content: SiteContent, password?: string): Promise<boolean> {
+// Save: content is managed in code, so the admin saves to localStorage only —
+// a private preview in THIS browser. To publish for everyone, use the admin's
+// "Экспорт JSON" button and hand the file to the developer to bake into the code.
+export async function saveContent(content: SiteContent): Promise<boolean> {
   localStorage.setItem('urall_content_v2', JSON.stringify(content));
-  console.log('[save] локально в браузер сохранено (localStorage). Теперь пробую на сервер…');
-  const pw = password ?? (typeof sessionStorage !== 'undefined' ? sessionStorage.getItem('urall_admin_pw') ?? '' : '');
-  const { saveRemoteContent } = await import('../lib/store');
-  const ok = await saveRemoteContent(content, pw);
-  if (!ok) console.warn('[save] Итог: на сервер НЕ сохранено (правки есть только в этом браузере). Причина — выше в группе "[save] POST /api/content".');
-  return ok;
+  console.log('[save] Сохранено в этом браузере (предпросмотр). Чтобы опубликовать всем — «Экспорт JSON» → разработчику.');
+  return true;
 }
 
 export const getContent = getCachedContent;

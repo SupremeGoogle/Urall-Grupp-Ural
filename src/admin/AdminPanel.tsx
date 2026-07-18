@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { LogOut, Save, Eye, RefreshCw, Check, ClipboardList, Trash2, Plus, GripVertical, Upload } from 'lucide-react'
+import { LogOut, Save, Eye, RefreshCw, Check, ClipboardList, Trash2, Plus, GripVertical, Upload, Download } from 'lucide-react'
 import { defaultContent, getCachedContent, loadContent, saveContent } from '../data/content'
 import type { SiteContent } from '../data/content'
 import { ICON_NAMES } from '../components/ui/Icon'
@@ -94,6 +94,16 @@ export default function AdminPanel() {
     }
   }
 
+  const handleExport = () => {
+    const blob = new Blob([JSON.stringify(content, null, 2)], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = 'site-content.json'
+    a.click()
+    URL.revokeObjectURL(url)
+  }
+
   const handleReset = async () => {
     if (confirm('Сбросить к исходным данным? Все правки будут потеряны.')) {
       setContent(defaultContent)
@@ -177,6 +187,10 @@ export default function AdminPanel() {
                className="liquid-glass rounded-full px-4 py-2 text-[12px] text-white/70 hover:text-white flex items-center gap-2 transition-colors">
               <Eye size={13} /> Просмотр сайта
             </a>
+            <button onClick={handleExport}
+               className="liquid-glass rounded-full px-4 py-2 text-[12px] text-white/70 hover:text-white flex items-center gap-2 transition-colors">
+              <Download size={13} /> Экспорт JSON
+            </button>
             <button onClick={handleReset}
                className="liquid-glass rounded-full px-4 py-2 text-[12px] text-white/70 hover:text-white flex items-center gap-2 transition-colors">
               <RefreshCw size={13} /> Сброс
@@ -207,8 +221,10 @@ export default function AdminPanel() {
 
       <div className="max-w-7xl mx-auto px-6 py-8">
         {/* Info banner */}
-        <div className="bg-brand-orange/10 border border-brand-orange/20 rounded-xl px-5 py-4 mb-6 text-[13px] text-white/70">
-          Изменения сохраняются в браузере и синхронизируются на сайт. Нажмите <strong className="text-white">«Сохранить»</strong> после правок.
+        <div className="bg-brand-orange/10 border border-brand-orange/20 rounded-xl px-5 py-4 mb-6 text-[13px] text-white/70 leading-relaxed">
+          «Сохранить» сохраняет правки <strong className="text-white">в этом браузере</strong> — для предпросмотра.
+          Чтобы опубликовать изменения <strong className="text-white">для всех посетителей</strong>, нажмите
+          <strong className="text-white"> «Экспорт JSON»</strong> и передайте файл разработчику для внесения в код.
         </div>
 
         {/* Tabs */}
