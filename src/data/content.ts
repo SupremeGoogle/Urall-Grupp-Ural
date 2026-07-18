@@ -340,22 +340,23 @@ export function getCachedContent(): SiteContent {
 }
 
 export async function loadContent(): Promise<SiteContent> {
-  const { fetchSiteContent, persistSiteContent } = await import('../lib/supabase');
-  const remote = await fetchSiteContent();
+  const { fetchRemoteContent } = await import('../lib/store');
+  const remote = await fetchRemoteContent();
   if (remote) {
     localStorage.setItem('urall_content_v2', JSON.stringify(remote));
     return remote;
   }
-  persistSiteContent(defaultContent);
-  localStorage.setItem('urall_content_v2', JSON.stringify(defaultContent));
-  return defaultContent;
+  // Function unavailable or no content stored yet — use cached/default content.
+  return getCachedContent();
 }
 
-export async function saveContent(content: SiteContent): Promise<boolean> {
+// Save: cache locally for instant render, then push to GitHub via the function.
+// `password` is the admin password (sent to the server function to authorize the write).
+export async function saveContent(content: SiteContent, password?: string): Promise<boolean> {
   localStorage.setItem('urall_content_v2', JSON.stringify(content));
-  const { persistSiteContent, isConfigured } = await import('../lib/supabase');
-  if (!isConfigured()) return true;
-  return persistSiteContent(content);
+  const pw = password ?? (typeof sessionStorage !== 'undefined' ? sessionStorage.getItem('urall_admin_pw') ?? '' : '');
+  const { saveRemoteContent } = await import('../lib/store');
+  return saveRemoteContent(content, pw);
 }
 
 export const getContent = getCachedContent;

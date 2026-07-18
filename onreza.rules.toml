@@ -1,0 +1,17 @@
+# ONREZA edge rules.
+# IMPORTANT: a committed onreza.rules.toml REPLACES the rules configured in the
+# ONREZA dashboard UI, so BOTH the function route and the SPA fallback must live
+# here — otherwise /admin and client-side routing break.
+
+# 1. Route /api/* to the content function (server-side; holds the GitHub token)
+[[rule]]
+id = "api-content"
+when.path = { prefix = "/api/" }
+action.pipeline = { override = true, steps = [ { handle = "content" } ] }
+
+# 2. SPA fallback: serve static files if they exist, otherwise index.html
+#    (covers /admin, /privacy and all client-side routes)
+[[rule]]
+id = "spa-fallback"
+when.path = { glob = "/{rest...}" }
+action.rewrite = { target = "/index.html", if_no_file = true }

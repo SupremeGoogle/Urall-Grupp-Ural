@@ -62,6 +62,9 @@ export default function AdminPanel() {
   const login = () => {
     if (pw === ADMIN_PASSWORD) {
       sessionStorage.setItem('urall_admin', 'yes')
+      // Kept only for the current tab session — used to authorize saves to the
+      // server function (which checks it against its own ADMIN_PASSWORD env var).
+      sessionStorage.setItem('urall_admin_pw', pw)
       setAuthed(true)
       setPwError(false)
       loadContent().then(setContent)
@@ -73,6 +76,7 @@ export default function AdminPanel() {
 
   const logout = () => {
     sessionStorage.removeItem('urall_admin')
+    sessionStorage.removeItem('urall_admin_pw')
     setAuthed(false)
   }
 
