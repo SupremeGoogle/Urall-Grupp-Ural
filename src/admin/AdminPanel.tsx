@@ -103,9 +103,9 @@ export default function AdminPanel() {
       <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center px-4">
         <div className="liquid-glass rounded-2xl p-10 w-full max-w-sm">
           <div className="flex items-center gap-3 mb-8">
-            <div className="w-9 h-9 rounded-lg bg-brand-orange flex items-center justify-center font-black text-black text-sm">UG</div>
+            <img src="/logo.png" alt="Стальное основание" className="w-11 h-11 rounded-lg object-cover" />
             <div>
-              <div className="font-inter font-bold text-white text-[15px]">Urall-Grupp</div>
+              <div className="font-inter font-bold text-white text-[15px]">Стальное основание</div>
               <div className="text-white/40 text-[11px]">Панель администратора</div>
             </div>
           </div>
@@ -158,7 +158,7 @@ export default function AdminPanel() {
       <div className="liquid-glass border-b border-white/5 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between flex-wrap gap-3">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-brand-orange flex items-center justify-center font-black text-black text-xs">UG</div>
+            <img src="/logo.png" alt="Стальное основание" className="w-8 h-8 rounded-lg object-cover" />
             <span className="font-inter font-bold text-white text-[15px]">Панель управления</span>
           </div>
           <div className="flex items-center gap-2 flex-wrap">
@@ -351,7 +351,6 @@ function HeroEditor({ content, setContent }: EditorProps) {
   return (
     <div className="space-y-5">
       <h3 className="font-inter font-bold text-white text-[18px] mb-6">Главный экран</h3>
-      <Field label="Бейдж (регионы)" value={content.hero.badge} onChange={set('badge')} />
       <Field label="Заголовок (строка 1, белый)" value={content.hero.title} onChange={set('title')} />
       <Field label="Заголовок (строка 2, оранжевый)" value={content.hero.titleAccent} onChange={set('titleAccent')} />
       <Field label="Подзаголовок (строка 3)" value={content.hero.subtitle} onChange={set('subtitle')} />

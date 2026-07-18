@@ -1,5 +1,5 @@
 import type { SiteContent } from '../data/content'
-import { CONTENT_VERSION } from '../data/content'
+import { CONTENT_VERSION } from '../data/content' // bumped to 4 for the rebrand
 
 const URL = import.meta.env.VITE_SUPABASE_URL as string
 const KEY = import.meta.env.VITE_SUPABASE_KEY as string

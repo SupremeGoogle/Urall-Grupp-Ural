@@ -12,9 +12,10 @@ export default function Footer({ content }: Props) {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
           {/* Logo + desc */}
           <div className="lg:col-span-2">
-            <a href="#" className="inline-block mb-4">
-              <span className="font-inter font-bold text-white text-2xl tracking-tight">
-                Urall<span className="text-brand-orange">-</span>Grupp
+            <a href="#" className="inline-flex items-center gap-4 mb-4 group">
+              <img src="/logo.png" alt="Стальное основание" className="h-20 w-20 rounded-2xl object-cover" />
+              <span className="font-inter font-bold text-white text-2xl tracking-tight leading-none">
+                Стальное<br /><span className="text-brand-orange">основание</span>
               </span>
             </a>
             <p className="text-white/40 text-sm leading-relaxed max-w-sm">{company.description}</p>

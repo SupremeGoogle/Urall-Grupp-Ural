@@ -28,22 +28,12 @@ export default function Header({ content }: Props) {
       scrolled ? 'py-3 liquid-glass' : 'py-5 bg-transparent'
     }`}>
       <div className="max-w-7xl mx-auto px-6">
-        {/* Top bar: hours + social */}
-        {!scrolled && (
-          <div className="hidden md:flex items-center justify-between text-[10px] text-white/30 tracking-widest uppercase mb-3">
-            <span>{content.company.hours}</span>
-            <div className="flex items-center gap-4">
-              <a href={content.company.vk} target="_blank" rel="noopener noreferrer" className="hover:text-brand-orange transition-colors">ВКонтакте</a>
-              <a href={content.company.telegram} target="_blank" rel="noopener noreferrer" className="hover:text-brand-orange transition-colors">Telegram</a>
-            </div>
-          </div>
-        )}
-
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <a href="#" className="flex items-center group transition-transform hover:scale-105">
-            <span className="font-inter font-bold text-white text-[20px] tracking-tight">
-              Urall<span className="text-brand-orange">-</span>Grupp
+          <a href="#" className="flex items-center gap-3 group transition-transform hover:scale-105">
+            <img src="/logo.png" alt="Стальное основание" className="h-10 w-10 rounded-lg object-cover" />
+            <span className="font-inter font-bold text-white text-[18px] tracking-tight leading-none">
+              Стальное<br /><span className="text-brand-orange">основание</span>
             </span>
           </a>
 

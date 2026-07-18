@@ -31,7 +31,7 @@ export interface PriceRow {
 
 // Bump when the content shape OR seeded icon vocabulary changes, so stale
 // rows in Supabase/localStorage are rejected and re-seeded from defaultContent.
-export const CONTENT_VERSION = 3
+export const CONTENT_VERSION = 4
 
 export interface SiteContent {
   version: number;
@@ -111,7 +111,7 @@ export interface SiteContent {
 export const defaultContent: SiteContent = {
   version: CONTENT_VERSION,
   company: {
-    name: 'Urall-Grupp',
+    name: 'Стальное основание',
     tagline: 'Производство и монтаж свайно-винтовых фундаментов в Краснодаре и по всему ЮФО',
     description: 'Производство и монтаж свайно-винтовых фундаментов в Краснодаре и по всему ЮФО',
     phone: '89180368866',
@@ -201,7 +201,7 @@ export const defaultContent: SiteContent = {
   },
   about: {
     title: 'ДОБРО ПОЖАЛОВАТЬ В',
-    titleAccent: 'URALL-GRUPP!',
+    titleAccent: 'СТАЛЬНОЕ ОСНОВАНИЕ!',
     paragraphs: [
       'Мы производим свайно-винтовые фундаменты в Краснодаре и осуществляем монтаж по всему ЮФО. Работаем с 2015 года — за это время сдали более 500 объектов.',
       'У нас 4 сваекрута, два из которых собственного производства. Помимо свайных фундаментов мы производим деревянные домокомплекты из мини-бруса — дачные домики, бани, бытовки.',

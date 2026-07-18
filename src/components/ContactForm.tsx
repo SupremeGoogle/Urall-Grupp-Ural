@@ -106,7 +106,7 @@ export default function ContactForm({ content }: Props) {
                 </div>
                 <div>
                   <div className="text-[11px] text-white/40 uppercase tracking-wide mb-0.5">ВКонтакте</div>
-                  <div className="font-inter font-semibold text-white text-[15px]">ural_grupp_krd</div>
+                  <div className="font-inter font-semibold text-white text-[15px]">Стальное основание</div>
                 </div>
               </a>
 

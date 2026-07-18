@@ -43,13 +43,6 @@ export default function HeroV2({ content }: Props) {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand-orange/5 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="relative max-w-7xl mx-auto px-6 w-full">
-        {/* Badge */}
-        <div className="flex justify-center mb-6">
-          <span className="liquid-glass text-[10px] font-semibold tracking-[0.2em] text-white/60 uppercase px-5 py-2 rounded-full">
-            {hero.badge}
-          </span>
-        </div>
-
         {/* Main heading */}
         <h1 className="text-center font-bold leading-tight mb-2">
           <span className="block text-3xl md:text-5xl lg:text-6xl text-white tracking-tight">
