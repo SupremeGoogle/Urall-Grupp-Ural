@@ -222,9 +222,8 @@ export default function AdminPanel() {
       <div className="max-w-7xl mx-auto px-6 py-8">
         {/* Info banner */}
         <div className="bg-brand-orange/10 border border-brand-orange/20 rounded-xl px-5 py-4 mb-6 text-[13px] text-white/70 leading-relaxed">
-          «Сохранить» сохраняет правки <strong className="text-white">в этом браузере</strong> — для предпросмотра.
-          Чтобы опубликовать изменения <strong className="text-white">для всех посетителей</strong>, нажмите
-          <strong className="text-white"> «Экспорт JSON»</strong> и передайте файл разработчику для внесения в код.
+          Нажмите <strong className="text-white">«Сохранить»</strong> — изменения сразу публикуются
+          <strong className="text-white"> для всех посетителей</strong> сайта. «Экспорт JSON» — сделать резервную копию контента.
         </div>
 
         {/* Tabs */}

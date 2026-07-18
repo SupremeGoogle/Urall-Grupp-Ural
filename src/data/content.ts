@@ -340,18 +340,35 @@ export function getCachedContent(): SiteContent {
 }
 
 export async function loadContent(): Promise<SiteContent> {
-  // Content is managed in code (defaultContent). Just use the local cache/defaults —
-  // no backend call.
+  const { fetchSiteContent, persistSiteContent, isConfigured } = await import('../lib/supabase');
+  const remote = await fetchSiteContent();
+  if (remote) {
+    localStorage.setItem('urall_content_v2', JSON.stringify(remote));
+    return remote;
+  }
+  // Supabase configured but empty/stale → seed it with the current defaults.
+  if (isConfigured()) {
+    persistSiteContent(defaultContent);
+    localStorage.setItem('urall_content_v2', JSON.stringify(defaultContent));
+    return defaultContent;
+  }
+  // Not configured yet → local cache/defaults.
   return getCachedContent();
 }
 
-// Save: content is managed in code, so the admin saves to localStorage only —
-// a private preview in THIS browser. To publish for everyone, use the admin's
-// "Экспорт JSON" button and hand the file to the developer to bake into the code.
+// Save: cache locally for instant render, then sync to Supabase so the change
+// goes live for every visitor. If Supabase isn't configured, the local save
+// still counts as success (private preview in this browser).
 export async function saveContent(content: SiteContent): Promise<boolean> {
   localStorage.setItem('urall_content_v2', JSON.stringify(content));
-  console.log('[save] Сохранено в этом браузере (предпросмотр). Чтобы опубликовать всем — «Экспорт JSON» → разработчику.');
-  return true;
+  const { persistSiteContent, isConfigured } = await import('../lib/supabase');
+  if (!isConfigured()) {
+    console.warn('[save] Supabase не настроен — сохранено только в этом браузере. Задайте VITE_SUPABASE_URL / VITE_SUPABASE_KEY в ONREZA.');
+    return true;
+  }
+  const ok = await persistSiteContent(content);
+  console.log(ok ? '[save] ✅ опубликовано для всех (Supabase)' : '[save] ❌ не удалось записать в Supabase — см. ошибку выше');
+  return ok;
 }
 
 export const getContent = getCachedContent;
