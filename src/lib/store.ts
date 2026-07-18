@@ -38,7 +38,11 @@ export async function saveRemoteContent(content: SiteContent, password: string):
       headers: { 'content-type': 'application/json', 'x-admin-password': password },
       body: JSON.stringify(content),
     })
-    return res.ok
+    if (!res.ok) return false
+    // Require a real JSON { ok: true } from the function — guards against the
+    // SPA fallback rewriting POST /api/content to index.html and returning 200.
+    const data = await res.json().catch(() => null)
+    return !!(data && typeof data === 'object' && (data as { ok?: boolean }).ok === true)
   } catch {
     return false
   }
